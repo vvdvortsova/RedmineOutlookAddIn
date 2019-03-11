@@ -1,0 +1,14 @@
+4444025d7e83c49e92466b5399ba7ee06c464637
+http://79.137.216.214/redmine/
+
+1)сохран€ть xml задачи , проекты 
+2)парсить xm текущего пользовател€
+3)тупо добавление задач и в outlook и в Redmine  в календарь Outlook 
+4)ћќ∆Ќќ  ј -“ќ ƒќЅј¬Ћя“№  јЋ≈Ќƒј–№ р≈ƒћј…Ќј ¬ а”“Ћ”  ѕ–ќ—“ќ ——џЋ ќ….
+5)https://www.redmine.org/plugins/redmine-outlook-addin отсюда можно заюзать картиночки
+6)в Outlooke  можно получить файл с задачами и т д
+7)http://www.redmine.org/projects/redmine/wiki/Rest_api_with_csharp апи шарпа где-то ссылка на гитхаб
+8)https://docs.microsoft.com/en-us/previous-versions/office/office-365-api/api/version-2.0/calendar-rest-operations#sync-events
+9)https://docs.microsoft.com/ru-ru/visualstudio/vsto/office-ui-customization?view=vs-2017
+10)https://docs.microsoft.com/ru-ru/visualstudio/vsto/walkthrough-displaying-custom-task-panes-with-e-mail-messages-in-outlook?view=vs-2017
+https://docs.microsoft.com/en-us/dotnet/api/microsoft.office.interop.outlook.taskitem?redirectedfrom=MSDN&view=outlook-pia

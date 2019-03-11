@@ -1,0 +1,16 @@
+https://docs.microsoft.com/en-us/outlook/add-ins/add-in-requirements
+https://docs.microsoft.com/en-us/outlook/add-ins/outlook-addin-design
+https://docs.microsoft.com/en-us/outlook/add-ins/understanding-outlook-add-in-permissions
+
+https://docs.microsoft.com/en-us/outlook
+Redmin.NET API library with.NET
+https://github.com/zapadi/redmine-net-api
+
+https://www.easyredmine.com/ru/software-gid/dopolnitelnie-plaginy/2842-plagin-outlook
+https://ru.ahausoftware.com/redmine-outlook
+https://infostart.ru/public/815261/
+про то как добовлять модули в с#
+https://docs.microsoft.com/ru-ru/aspnet/web-api/overview/advanced/calling-a-web-api-from-a-net-client
+
+какая-то инфа по кнопкам 
+http://qaru.site/questions/1414569/how-to-position-outlook-20072010-vsto-context-menu-button
