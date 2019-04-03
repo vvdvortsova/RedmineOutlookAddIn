@@ -8,6 +8,7 @@ using Office = Microsoft.Office.Core;
 using System.Windows.Forms;
 using Redmine.Net.Api;
 using Redmine.Net.Api.Types;
+using System.Collections.Specialized;
 
 namespace RedmineOutlookAddIn
 {
@@ -19,6 +20,10 @@ namespace RedmineOutlookAddIn
 		private Office.CommandBarPopup _objNewMenuBar;
 		private Outlook.Inspectors Inspectors;
 		private Office.CommandBarButton _objButton;//Кнопка в надстройке
+		private Office.CommandBarButton _objButtonRegistration;//кнопка окна регистрации
+		private Office.CommandBarButton _objButtonFunny;//по приколу
+		internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
+		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
 		RedmineManager manager;
 
 		private string menuTag = "MyfirstPlugin";
@@ -27,9 +32,23 @@ namespace RedmineOutlookAddIn
 			this.MyMenuBar();
 			string host = "http://79.137.216.214/redmine/";
 			string apiKey = "4444025d7e83c49e92466b5399ba7ee06c464637";
-
 			manager = new RedmineManager(host, apiKey);
+			
+			try
+			{
+				//var connection = new Connection();
+				//connection.Show();
 
+				//manager = new RedmineManager(connection.textBox1.Text, connection.textBox2.Text);
+
+			}
+			catch (Exception ex )
+			{
+
+				//MessageBox.Show(ex.Message);
+			}
+			
+		
 			Inspectors = this.Application.Inspectors;
 		}
 
@@ -48,7 +67,7 @@ namespace RedmineOutlookAddIn
 			try
 			{
 
-
+				
 				_objMenuBar = this.Application.ActiveExplorer().CommandBars.ActiveMenuBar;
 				_objNewMenuBar = (Office.CommandBarPopup)
 								 _objMenuBar.Controls.Add(Office.MsoControlType.msoControlPopup
@@ -63,14 +82,19 @@ namespace RedmineOutlookAddIn
 
 					_objNewMenuBar.Caption = "My Plugin";
 					_objNewMenuBar.Tag = menuTag;
-
-
+					
+					_objButtonRegistration = (Office.CommandBarButton)_objNewMenuBar.Controls.
+					Add(Office.MsoControlType.msoControlButton, missing,
+						missing, 1, true);
 					_objButton = (Office.CommandBarButton)_objNewMenuBar.Controls.
 					Add(Office.MsoControlType.msoControlButton, missing,
 						missing, 1, true);
 					//_objButton.Picture = "redmine.ico";
+					_objButtonFunny= (Office.CommandBarButton)_objNewMenuBar.Controls.
+					Add(Office.MsoControlType.msoControlButton, missing,
+						missing, 1, true);
 
-
+					_objButtonRegistration.Visible = true;
 					_objButton.Caption = "Hello World";
 					//Icon 
 					_objButton.FaceId = 5000;
@@ -78,6 +102,7 @@ namespace RedmineOutlookAddIn
 					//EventHandler
 					_objButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButton_Click);
 					_objNewMenuBar.Visible = true;
+
 				}
 			}
 			catch (System.Exception ex)
@@ -122,18 +147,7 @@ namespace RedmineOutlookAddIn
 			// If the menu already exists, remove it.
 			try
 			{
-				Office.CommandBarPopup _objIsMenueExist = (Office.CommandBarPopup)
-					this.Application.ActiveExplorer().CommandBars.ActiveMenuBar.
-					FindControl(Office.MsoControlType.msoControlPopup
-							  , missing
-							  , menuTag
-							  , true
-							  , true);
-
-				if (_objIsMenueExist != null)
-				{
-					_objIsMenueExist.Delete(true);
-				}
+				
 			}
 			catch (System.Exception ex)
 			{
@@ -145,7 +159,7 @@ namespace RedmineOutlookAddIn
 		{
 			try
 			{
-
+				
 				Outlook.TaskItem newTaskItem =
 					(Outlook.TaskItem)this.Application.CreateItem(Outlook.OlItemType.olTaskItem);
 				newTaskItem.StartDate = DateTime.Now.AddHours(2);
@@ -156,8 +170,18 @@ namespace RedmineOutlookAddIn
 
 				newTaskItem.Save();
 				newTaskItem.Display("True");
+				
 				var newIssue = new Issue { Subject = newTaskItem.Subject, Project = new IdentifiableName { Id = 1 } };
+
 				manager.CreateObject(newIssue);
+				string str = string.Empty;
+				foreach (var item in manager.GetUsers())
+				{
+					str += item.LastName+"\n";
+				}
+				string task_list = string.Empty;
+				
+				MessageBox.Show(manager.ToString()+$"{Environment.NewLine}"+str);
 
 			}
 			catch (Exception ex)
