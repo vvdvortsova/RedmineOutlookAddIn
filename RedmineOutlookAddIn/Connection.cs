@@ -15,6 +15,7 @@ namespace RedmineOutlookAddIn
 		public Connection()
 		{
 			InitializeComponent();
+			label5.Text = $"По всем вопросам{Environment.NewLine}пишите на почту";
 		}
 
 		private void label3_Click(object sender, EventArgs e)

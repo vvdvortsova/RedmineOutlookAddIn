@@ -25,27 +25,25 @@ namespace RedmineOutlookAddIn
 		internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
 		RedmineManager manager;
+		string host = "http://79.137.216.214/redmine/";
+		string apiKey = "4444025d7e83c49e92466b5399ba7ee06c464637";
 
 		private string menuTag = "MyfirstPlugin";
 		private void ThisAddIn_Startup(object sender, System.EventArgs e)
 		{
 			this.MyMenuBar();
-			string host = "http://79.137.216.214/redmine/";
-			string apiKey = "4444025d7e83c49e92466b5399ba7ee06c464637";
-			manager = new RedmineManager(host, apiKey);
+			
+			
 			
 			try
 			{
-				//var connection = new Connection();
-				//connection.Show();
-
-				//manager = new RedmineManager(connection.textBox1.Text, connection.textBox2.Text);
+				//manager = new RedmineManager(host, apiKey);
 
 			}
 			catch (Exception ex )
 			{
 
-				//MessageBox.Show(ex.Message);
+				//manager = new RedmineManager(host, apiKey);
 			}
 			
 		
@@ -80,7 +78,7 @@ namespace RedmineOutlookAddIn
 				{
 
 
-					_objNewMenuBar.Caption = "My Plugin";
+					_objNewMenuBar.Caption = "Главное меню";
 					_objNewMenuBar.Tag = menuTag;
 					
 					_objButtonRegistration = (Office.CommandBarButton)_objNewMenuBar.Controls.
@@ -90,12 +88,13 @@ namespace RedmineOutlookAddIn
 					Add(Office.MsoControlType.msoControlButton, missing,
 						missing, 1, true);
 					//_objButton.Picture = "redmine.ico";
-					_objButtonFunny= (Office.CommandBarButton)_objNewMenuBar.Controls.
-					Add(Office.MsoControlType.msoControlButton, missing,
-						missing, 1, true);
+					//_objButtonFunny= (Office.CommandBarButton)_objNewMenuBar.Controls.
+					//Add(Office.MsoControlType.msoControlButton, missing,
+					//	missing, 1, true);
 
-					_objButtonRegistration.Visible = true;
-					_objButton.Caption = "Hello World";
+					_objButtonRegistration.Caption = "Настройки";
+					_objButtonRegistration.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonRegistration_Click);
+					_objButton.Caption = "Добавить задачу";
 					//Icon 
 					_objButton.FaceId = 5000;
 					_objButton.Tag = "ItemTag";
@@ -123,7 +122,20 @@ namespace RedmineOutlookAddIn
 
 		#region "Event Handler"
 		#region "Menu Button"
+		private void _objButtonRegistration_Click(Office.CommandBarButton ctrl,ref bool cancel)
+		{
 
+			try
+			{
+				var conectMenu = new Connection();
+				conectMenu.Show();
+
+			}
+			catch (System.Exception ex)
+			{
+				System.Windows.Forms.MessageBox.Show("Error " + ex.Message.ToString() + $"/n{ex.StackTrace}");
+			}
+		}
 		private void _objButton_Click(Office.CommandBarButton ctrl, ref bool cancel)
 		{
 			try
@@ -159,7 +171,7 @@ namespace RedmineOutlookAddIn
 		{
 			try
 			{
-				
+				manager = new RedmineManager(host, apiKey);
 				Outlook.TaskItem newTaskItem =
 					(Outlook.TaskItem)this.Application.CreateItem(Outlook.OlItemType.olTaskItem);
 				newTaskItem.StartDate = DateTime.Now.AddHours(2);
@@ -175,9 +187,10 @@ namespace RedmineOutlookAddIn
 
 				manager.CreateObject(newIssue);
 				string str = string.Empty;
-				foreach (var item in manager.GetUsers())
+				manager.GetObjectList<Issue>(new NameValueCollection());
+				foreach (var item in manager.GetObjectList<Issue>(new NameValueCollection()))
 				{
-					str += item.LastName+"\n";
+					str += item.Description+$"{Environment.NewLine}";
 				}
 				string task_list = string.Empty;
 				
