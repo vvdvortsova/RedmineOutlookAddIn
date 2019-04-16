@@ -9,38 +9,69 @@ using System.Windows.Forms;
 using Redmine.Net.Api;
 using Redmine.Net.Api.Types;
 using System.Collections.Specialized;
+using System.Runtime.InteropServices;
+using System.ComponentModel;
+using System.Windows.Forms;
+using MsoTDAddinLib;
+using System.AddIn;
+using Microsoft.Office.Interop.Outlook;
+using System.Data;
+using Microsoft.Office.Tools.Ribbon;
 
 namespace RedmineOutlookAddIn
 {
    
 	public partial class ThisAddIn
 	{
-
+		
+		private Office.CommandBar _objOtherMenuBar;
+		private Office.CommandBarPopup _objNewOtherMenuBar;
 		private Office.CommandBar _objMenuBar;
 		private Office.CommandBarPopup _objNewMenuBar;
 		private Outlook.Inspectors Inspectors;
+		private Office.CommandBarButton _objButtonForSom;//Кнопка в надстройке
 		private Office.CommandBarButton _objButton;//Кнопка в надстройке
 		private Office.CommandBarButton _objButtonRegistration;//кнопка окна регистрации
-		private Office.CommandBarButton _objButtonFunny;//по приколу
-		internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
+		private Office.CommandBarButton _objButtonUpdate;//по приколу
+		internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1 ;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton RibButton1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
-		RedmineManager manager;
-		string host = "http://79.137.216.214/redmine/";
-		string apiKey = "4444025d7e83c49e92466b5399ba7ee06c464637";
-
+		static string host = "http://79.137.216.214/redmine/";
+		static string apiKey = "4444025d7e83c49e92466b5399ba7ee06c464637";
+		public static RedmineManager manager = new RedmineManager(host, apiKey);
+		public Ribbon ribbon = null;
+		//MyRibbon myRibbon = new MyRibbon();
+		//protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
+		//{
+		//	return new MyRibbon2();
+		//}
+		//First we try to get the default toolbar
+		
 		private string menuTag = "MyfirstPlugin";
 		private void ThisAddIn_Startup(object sender, System.EventArgs e)
 		{
+			ribbon = new Ribbon();
+			
+			MyRibbon myRibbon = new MyRibbon();
+			myRibbon.buttonAddTask.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(AddIssue);
+			
 			this.MyMenuBar();
+			this.MyOtherBar();
+			var fd = new MainMenu();
+			fd.Name = "SomeMenu";
 			
-			
-			
+			//_objButtonForSom = (Office.CommandBarButton)
+
+			//		Add(Office.MsoControlType.msoControlButton, missing,
+			//			missing, 1, true);
+
+
 			try
 			{
 				//manager = new RedmineManager(host, apiKey);
 
 			}
-			catch (Exception ex )
+			catch (System.Exception ex )
 			{
 
 				//manager = new RedmineManager(host, apiKey);
@@ -48,6 +79,93 @@ namespace RedmineOutlookAddIn
 			
 		
 			Inspectors = this.Application.Inspectors;
+		}
+		//private void AddButtonsToMenu()
+		//{
+		//	////RibbonButton tempButton = Ta.Factory.CreateRibbonButton();
+		//	//tempButton.Label = "Button 1";
+		//	//tempButton.ControlSize =
+		//	//	Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+		//	//tempButton.Description = "My Ribbon Button";
+		//	//tempButton.ShowImage = true;
+		//	//tempButton.ShowImage = true;
+			
+			
+
+		//}
+
+		private void AddIssue(object sender, RibbonControlEventArgs e)
+		{
+			try
+			{
+				TasksUpdates();
+		
+				}
+			catch (System.Exception ex)
+			{
+
+				MessageBox.Show(ex.Message);
+			}
+			
+		}
+
+		private void _objButton1_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void MyOtherBar()
+		{
+			this.ErsMyMenuBar();
+			try
+			{
+
+
+				_objOtherMenuBar = this.Application.ActiveExplorer().CommandBars.ActiveMenuBar;
+				
+				_objNewOtherMenuBar = (Office.CommandBarPopup)
+								 _objOtherMenuBar.Controls.Add(Office.MsoControlType.msoControlPopup
+														, missing
+														, missing
+														, missing
+														, true);
+
+				if (_objNewOtherMenuBar != null)
+				{
+
+
+					_objNewOtherMenuBar.Caption = "Другое меню";
+					_objNewOtherMenuBar.Tag = menuTag;
+
+					_objButtonRegistration = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
+					Add(Office.MsoControlType.msoControlButton, missing,
+						missing, 1, true);
+					_objButton = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
+					Add(Office.MsoControlType.msoControlButton, missing,
+						missing, 1, true);
+					//_objButton.Picture = "redmine.ico";
+					_objButtonUpdate = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
+					Add(Office.MsoControlType.msoControlButton, missing,
+						missing, 1, true);
+					_objButtonUpdate.Caption = "Update";
+					_objButtonUpdate.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonUpdate_Click);
+					_objButtonRegistration.Caption = "Настройки";
+					_objButtonRegistration.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonRegistration_Click);
+					_objButton.Caption = "Добавить задачу";
+					//Icon 
+					_objButton.FaceId = 5000;
+					_objButton.Tag = "ItemTag";
+					//EventHandler
+					_objButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButton_Click);
+					_objNewMenuBar.Visible = true;
+
+				}
+			}
+			catch (System.Exception ex)
+			{
+				System.Windows.Forms.MessageBox.Show("Error: " + ex.Message.ToString()
+												   , "Error Message");
+			}
 		}
 
 		private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
@@ -61,7 +179,7 @@ namespace RedmineOutlookAddIn
 		private void MyMenuBar()
 		{
 			this.ErsMyMenuBar();
-
+			
 			try
 			{
 
@@ -88,10 +206,11 @@ namespace RedmineOutlookAddIn
 					Add(Office.MsoControlType.msoControlButton, missing,
 						missing, 1, true);
 					//_objButton.Picture = "redmine.ico";
-					//_objButtonFunny= (Office.CommandBarButton)_objNewMenuBar.Controls.
-					//Add(Office.MsoControlType.msoControlButton, missing,
-					//	missing, 1, true);
-
+					_objButtonUpdate = (Office.CommandBarButton)_objNewMenuBar.Controls.
+					Add(Office.MsoControlType.msoControlButton, missing,
+						missing, 1, true);
+					_objButtonUpdate.Caption = "Update";
+					_objButtonUpdate.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonUpdate_Click);
 					_objButtonRegistration.Caption = "Настройки";
 					_objButtonRegistration.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonRegistration_Click);
 					_objButton.Caption = "Добавить задачу";
@@ -111,6 +230,95 @@ namespace RedmineOutlookAddIn
 			}
 
 		}
+
+		private void _objButtonUpdate_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+		{
+			//try
+			//{
+				TasksUpdates();
+			//}
+			//catch (System.Exception ex)
+			//{
+
+				//MessageBox.Show(ex.Message);
+			//}
+		}
+
+		private void TasksUpdates()
+		{
+			
+			Outlook.NameSpace namespce = null;
+			Outlook.Items tasks = null;
+			Outlook.Application oApp = new Outlook.Application();
+			namespce = oApp.GetNamespace("MAPI");
+			tasks = namespce.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderTasks).Items;
+			string temp = string.Empty;
+			string tmpRedm = string.Empty;
+			bool isExist = false;
+			string AddedTastFromOutlook = string.Empty;
+			
+				foreach (Issue issue in manager.GetObjectList<Issue>(new NameValueCollection()))
+				{
+					foreach (Outlook.TaskItem task in tasks)
+					{
+						if (task.Subject == issue.Subject)
+						{
+							if ((DateTime)issue.UpdatedOn > task.LastModificationTime)
+							{
+								UpdateOneTask(task, issue);
+							}
+							isExist = true;
+							continue;
+						}
+
+						temp += $"{task.Body}+{Environment.NewLine}";
+						bool isCompleeted = task.Complete;//Check if your task is compleeted in your application you could use EntryID property to identify a task 
+						if (isCompleeted == true && task.Status != OlTaskStatus.olTaskComplete)
+						{
+							task.MarkComplete();
+							task.Save();
+						}
+
+					isExist = false;
+					}
+					if (isExist)
+				{
+					Outlook.TaskItem task = null;
+
+					task = (Outlook.TaskItem)this.Application.CreateItem(Outlook.OlItemType.olTaskItem);
+					task.Subject = "Review site design";
+					task.StartDate = DateTime.Now;
+					task.DueDate = DateTime.Now.AddDays(2);
+					task.Status = Outlook.OlTaskStatus.olTaskNotStarted;
+					task.Save();
+					//newTaskItem.StartDate = (DateTime)issue.StartDate;
+					//newTaskItem.DueDate = (DateTime)issue.DueDate;
+					//AddedTastFromOutlook += $"{newTaskItem.Subject}+{Environment.NewLine}";
+
+					//Create a issue.
+
+					
+					}
+				}
+
+			MessageBox.Show("NewTAsk  "+AddedTastFromOutlook);
+			
+			
+
+
+
+		}
+
+		private void UpdateOneTask(TaskItem task, Issue issue)
+		{
+			//task.DueDate = (DateTime)issue.DueDate;
+			task.Body = issue.Description;
+			
+		}
+
+
+
+
 		#endregion
 		#region VSTO generated code
 		private void InternalStartup()
@@ -167,25 +375,39 @@ namespace RedmineOutlookAddIn
 												   , "Error Message");
 			}
 		}
-		private void AddTask()
+		
+		 internal  void AddTask()
 		{
 			try
 			{
-				manager = new RedmineManager(host, apiKey);
+				
 				Outlook.TaskItem newTaskItem =
 					(Outlook.TaskItem)this.Application.CreateItem(Outlook.OlItemType.olTaskItem);
 				newTaskItem.StartDate = DateTime.Now.AddHours(2);
 
-
+				
 				newTaskItem.Body = "Try to create a task";
 				//Create a issue.
 
 				newTaskItem.Save();
 				newTaskItem.Display("True");
-				
-				var newIssue = new Issue { Subject = newTaskItem.Subject, Project = new IdentifiableName { Id = 1 } };
 
-				manager.CreateObject(newIssue);
+				var newIssue = new Issue { Subject = newTaskItem.Subject,
+					Project = new IdentifiableName { Id = 1 },
+					Description = newTaskItem.Body,
+					StartDate = newTaskItem.StartDate,
+					DueDate = newTaskItem.DueDate,
+					
+					};
+					manager.CreateObject(newIssue);
+				
+				
+				
+					
+
+				
+				
+				
 				string str = string.Empty;
 				manager.GetObjectList<Issue>(new NameValueCollection());
 				foreach (var item in manager.GetObjectList<Issue>(new NameValueCollection()))
@@ -197,7 +419,7 @@ namespace RedmineOutlookAddIn
 				MessageBox.Show(manager.ToString()+$"{Environment.NewLine}"+str);
 
 			}
-			catch (Exception ex)
+			catch (System.Exception ex)
 			{
 
 				MessageBox.Show("The following error occurred: " + ex.Message); throw;
@@ -230,7 +452,7 @@ namespace RedmineOutlookAddIn
 				newAppointment.Save();
 				newAppointment.Display(true);
 			}
-			catch (Exception ex)
+			catch (System.Exception ex)
 			{
 				MessageBox.Show("The following error occurred: " + ex.Message);
 			}
