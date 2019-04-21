@@ -38,8 +38,8 @@ namespace RedmineOutlookAddIn
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
 		static string host = "http://79.137.216.214/redmine/";
 		static string apiKey = "4444025d7e83c49e92466b5399ba7ee06c464637";
-		public static RedmineManager manager = new RedmineManager(host, apiKey);
-		public Ribbon ribbon = null;
+		public static  RedmineManager manager = new RedmineManager(host, apiKey);
+		
 		//MyRibbon myRibbon = new MyRibbon();
 		//protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
 		//{
@@ -50,35 +50,12 @@ namespace RedmineOutlookAddIn
 		private string menuTag = "MyfirstPlugin";
 		private void ThisAddIn_Startup(object sender, System.EventArgs e)
 		{
-			ribbon = new Ribbon();
 			
-			MyRibbon myRibbon = new MyRibbon();
-			myRibbon.buttonAddTask.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(AddIssue);
 			
-			this.MyMenuBar();
-			this.MyOtherBar();
-			var fd = new MainMenu();
-			fd.Name = "SomeMenu";
 			
-			//_objButtonForSom = (Office.CommandBarButton)
-
-			//		Add(Office.MsoControlType.msoControlButton, missing,
-			//			missing, 1, true);
-
-
-			try
-			{
-				//manager = new RedmineManager(host, apiKey);
-
-			}
-			catch (System.Exception ex )
-			{
-
-				//manager = new RedmineManager(host, apiKey);
-			}
 			
-		
-			Inspectors = this.Application.Inspectors;
+			
+			
 		}
 		//private void AddButtonsToMenu()
 		//{
@@ -94,20 +71,7 @@ namespace RedmineOutlookAddIn
 
 		//}
 
-		private void AddIssue(object sender, RibbonControlEventArgs e)
-		{
-			try
-			{
-				TasksUpdates();
 		
-				}
-			catch (System.Exception ex)
-			{
-
-				MessageBox.Show(ex.Message);
-			}
-			
-		}
 
 		private void _objButton1_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
 		{
@@ -116,50 +80,50 @@ namespace RedmineOutlookAddIn
 
 		private void MyOtherBar()
 		{
-			this.ErsMyMenuBar();
+			//this.ErsMyMenuBar();
 			try
 			{
 
 
-				_objOtherMenuBar = this.Application.ActiveExplorer().CommandBars.ActiveMenuBar;
+				//_objOtherMenuBar = this.Application.ActiveExplorer().CommandBars.ActiveMenuBar;
 				
-				_objNewOtherMenuBar = (Office.CommandBarPopup)
-								 _objOtherMenuBar.Controls.Add(Office.MsoControlType.msoControlPopup
-														, missing
-														, missing
-														, missing
-														, true);
+				//_objNewOtherMenuBar = (Office.CommandBarPopup)
+				//				 _objOtherMenuBar.Controls.Add(Office.MsoControlType.msoControlPopup
+				//										, missing
+				//										, missing
+				//										, missing
+				//										, true);
 
-				if (_objNewOtherMenuBar != null)
-				{
+				//if (_objNewOtherMenuBar != null)
+				//{
 
 
-					_objNewOtherMenuBar.Caption = "Другое меню";
-					_objNewOtherMenuBar.Tag = menuTag;
+				//	_objNewOtherMenuBar.Caption = "Другое меню";
+				//	_objNewOtherMenuBar.Tag = menuTag;
 
-					_objButtonRegistration = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
-					Add(Office.MsoControlType.msoControlButton, missing,
-						missing, 1, true);
-					_objButton = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
-					Add(Office.MsoControlType.msoControlButton, missing,
-						missing, 1, true);
-					//_objButton.Picture = "redmine.ico";
-					_objButtonUpdate = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
-					Add(Office.MsoControlType.msoControlButton, missing,
-						missing, 1, true);
-					_objButtonUpdate.Caption = "Update";
-					_objButtonUpdate.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonUpdate_Click);
-					_objButtonRegistration.Caption = "Настройки";
-					_objButtonRegistration.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonRegistration_Click);
-					_objButton.Caption = "Добавить задачу";
-					//Icon 
-					_objButton.FaceId = 5000;
-					_objButton.Tag = "ItemTag";
-					//EventHandler
-					_objButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButton_Click);
-					_objNewMenuBar.Visible = true;
+				//	_objButtonRegistration = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
+				//	Add(Office.MsoControlType.msoControlButton, missing,
+				//		missing, 1, true);
+				//	_objButton = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
+				//	Add(Office.MsoControlType.msoControlButton, missing,
+				//		missing, 1, true);
+				//	//_objButton.Picture = "redmine.ico";
+				//	_objButtonUpdate = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
+				//	Add(Office.MsoControlType.msoControlButton, missing,
+				//		missing, 1, true);
+				//	_objButtonUpdate.Caption = "Update";
+				//	_objButtonUpdate.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonUpdate_Click);
+				//	_objButtonRegistration.Caption = "Настройки";
+				//	_objButtonRegistration.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonRegistration_Click);
+				//	_objButton.Caption = "Добавить задачу";
+				//	//Icon 
+				//	_objButton.FaceId = 5000;
+				//	_objButton.Tag = "ItemTag";
+				//	//EventHandler
+				//	_objButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButton_Click);
+				//	_objNewMenuBar.Visible = true;
 
-				}
+				//}
 			}
 			catch (System.Exception ex)
 			{

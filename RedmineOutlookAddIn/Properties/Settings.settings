@@ -8,12 +8,6 @@
     <Setting Name="apyKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="password" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="login" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="manager" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)" />
       <Value Profile="(Default)" />

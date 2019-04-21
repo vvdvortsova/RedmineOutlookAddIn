@@ -19,52 +19,49 @@ namespace RedmineOutlookAddIn
 			
 		}
 
-		private void label3_Click(object sender, EventArgs e)
-		{
+		
 
-		}
-
-		private void panel2_Paint(object sender, PaintEventArgs e)
-		{
-
-		}
+		
 
 		private void Connection_Load(object sender, EventArgs e)
 		{
-			panel2.Visible = false;
-			panel3.Visible = false;
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-			panel2.Visible = true;
-			panel3.Visible = false;
 			
 			
 		}
 
-		private void button2_Click(object sender, EventArgs e)
-		{
-			panel3.Visible = true;
-			panel2.Visible = false;
-		}
+		
 
 		private void button3_Click(object sender, EventArgs e)
 		{
 			try
 			{
-				if (!File.Exists("../../Mypassword.txt"))
+				try
 				{
-					File.Create("../../Mypassword.txt");
-					
+					if (checkBoxRemeberApiUrl.Checked)
+					{
+						RedmineOutlookAddIn.Properties.Settings.Default.apyKey = textBoxApiKey.Text;
+						RedmineOutlookAddIn.Properties.Settings.Default.host = textBoxUrl.Text;
+						RedmineOutlookAddIn.Properties.Settings.Default.Save();
+						MessageBox.Show("You are registrated");
+					}
+				}
+				catch (Exception EX)
+				{
 
+					MessageBox.Show(EX.Message + Environment.NewLine + "Произошла ошибка:(" + Environment.NewLine + "Попробуйте снова)");
 				}
-				using (StreamWriter stream = new StreamWriter("../../Mypassword.txt"))
-				{
-					stream.WriteLine(textBoxUrl.Text);
-					stream.WriteLine(textBoxApiKey.Text);
-					MessageBox.Show("Пароль записан");
-				}
+				//if (!File.Exists("../../Mypassword.txt"))
+				//{
+				//	File.Create("../../Mypassword.txt");
+
+
+				//}
+				//using (StreamWriter stream = new StreamWriter("../../Mypassword.txt"))
+				//{
+				//	stream.WriteLine(textBoxUrl.Text);
+				//	stream.WriteLine(textBoxApiKey.Text);
+				//	MessageBox.Show("Пароль записан");
+				//}
 
 			}
 			catch (Exception EX)
@@ -74,19 +71,7 @@ namespace RedmineOutlookAddIn
 			}
 		}
 
-		private void button4_Click(object sender, EventArgs e)
-		{
-			try
-			{
-
-			}
-			catch (Exception EX)
-			{
-
-				MessageBox.Show(EX.Message + Environment.NewLine + "Произошла ошибка:(" + Environment.NewLine + "Попробуйте снова)");
-			}
-		}
-
+		
 		private void checkBox2_CheckedChanged(object sender, EventArgs e)
 		{
 			if (checkBox2.Checked)
@@ -96,14 +81,7 @@ namespace RedmineOutlookAddIn
 			else textBoxApiKey.UseSystemPasswordChar = false;
 		}
 
-		private void checkBox1_CheckedChanged(object sender, EventArgs e)
-		{
-			if (checkBox1.Checked)
-			{
-				textBoxPassword.UseSystemPasswordChar = true;
-			}
-			else textBoxPassword.UseSystemPasswordChar = false;
-		}
+		
 
 		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
@@ -116,18 +94,15 @@ namespace RedmineOutlookAddIn
 			{
 				RedmineOutlookAddIn.Properties.Settings.Default.apyKey = textBoxApiKey.Text;
 				RedmineOutlookAddIn.Properties.Settings.Default.host = textBoxUrl.Text;
+				RedmineOutlookAddIn.Properties.Settings.Default.Save();
 
 			}
 
 		}
 
-		private void checkBoxRememberLoginPassword_CheckedChanged(object sender, EventArgs e)
+		private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			if (checkBoxRememberLoginPassword.Checked)
-			{
-				RedmineOutlookAddIn.Properties.Settings.Default.password = textBoxPassword.Text;
-				RedmineOutlookAddIn.Properties.Settings.Default.login = textBoxLogin.Text;
-			}
+
 		}
 	}
 }

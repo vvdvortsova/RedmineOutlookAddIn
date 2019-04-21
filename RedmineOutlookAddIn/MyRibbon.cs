@@ -30,17 +30,17 @@ namespace RedmineOutlookAddIn
 {
 	public partial class MyRibbon
 	{
-		public static string host = "http://79.137.216.214/redmine/";
-		public static string apiKey = "4444025d7e83c49e92466b5399ba7ee06c464637";
-		public static RedmineManager manager;// new RedmineManager(host, apiKey);
+		public static string host = RedmineOutlookAddIn.Properties.Settings.Default.host;// "http://79.137.216.214/redmine/";
+		public static string apiKey = RedmineOutlookAddIn.Properties.Settings.Default.host;//"4444025d7e83c49e92466b5399ba7ee06c464637";
+		public  RedmineManager manager= new RedmineManager(host, apiKey);
 		//public Connection connection = new Connection();
 
 		private void MyRibbon_Load(object sender, RibbonUIEventArgs e)
 		{
 			try
 			{
-				isExistUser();
-				this.RibbonUI.Invalidate();
+				//isExistUser();
+				//this.RibbonUI.Invalidate();
 
 			}
 			catch (System.Exception ex)
@@ -59,12 +59,12 @@ namespace RedmineOutlookAddIn
 
 		internal bool isExistUser()
 		{
-			using (StreamReader sr = new StreamReader("../../Mypassword.txt"))
-			{
-				host = sr.ReadLine();
-				apiKey = sr.ReadLine();
+			//using (StreamReader sr = new StreamReader("../../Mypassword.txt"))
+			//{
+			//	host = sr.ReadLine();
+			//	apiKey = sr.ReadLine();
 				
-			}
+			//}
 			//host = RedmineOutlookAddIn.Properties.Settings.Default.host;
 			//apiKey = RedmineOutlookAddIn.Properties.Settings.Default.apyKey;
 			try
@@ -88,10 +88,7 @@ namespace RedmineOutlookAddIn
 		{
 			try
 			{
-				if (!isExistUser())
-				{
-					throw new RedmineException("Авторизуйтесь");
-				}
+				manager = new RedmineManager(RedmineOutlookAddIn.Properties.Settings.Default.host, RedmineOutlookAddIn.Properties.Settings.Default.apyKey);
 				AddTask();
 				//AddTaskToCalendar();
 			}
@@ -175,8 +172,15 @@ namespace RedmineOutlookAddIn
 
 			Connection connection = new Connection();
 			connection.Show();
-			isExistUser();
-			this.RibbonUI.Invalidate();
+			if (connection.checkBox2.Checked) {
+				RedmineOutlookAddIn.Properties.Settings.Default.host = connection.textBoxUrl.Text;
+				RedmineOutlookAddIn.Properties.Settings.Default.apyKey = connection.textBoxApiKey.Text;
+			}
+
+			manager = new RedmineManager(RedmineOutlookAddIn.Properties.Settings.Default.host, RedmineOutlookAddIn.Properties.Settings.Default.apyKey);
+
+			//isExistUser();
+			//this.RibbonUI.Invalidate();
 
 
 
@@ -248,14 +252,19 @@ namespace RedmineOutlookAddIn
 			
 
 		}
-
+		/// <summary>
+		/// Метод обновления задачи 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void button6_Click(object sender, RibbonControlEventArgs e)
 		{
 			TasksUpdates();
 		}
 		private void TasksUpdates()
 		{
-
+			ProgressBarShow progress = new ProgressBarShow();
+			
 			Outlook.NameSpace namespce = null;
 			Outlook.Items tasks = null;
 			Outlook.Application oApp = new Outlook.Application();
@@ -265,47 +274,83 @@ namespace RedmineOutlookAddIn
 			string tmpRedm = string.Empty;
 			bool isExist = false;
 			string AddedTastFromOutlook = string.Empty;
-
+			int pr = 0;
+			progress.progressBar1.Maximum= manager.GetObjectList<Issue>(new NameValueCollection()).Count;
+			progress.Show();
+			//progress.timer1.Interval = 1;
+			//progress.progressBar1.Value = progress.progressBar1.Value + 1;
+			//progress.timer1.Start();
 			foreach (Issue issue in manager.GetObjectList<Issue>(new NameValueCollection()))
 			{
 				isExist = false;
-				foreach (Outlook.TaskItem task in tasks)
+				try
 				{
-					if (task.Subject == issue.Subject)
+					foreach (Outlook.TaskItem task in tasks)
 					{
-						if ((DateTime)issue.UpdatedOn > task.LastModificationTime)
+						//System.Threading.Thread.Sleep(100);
+						if (task.Subject == issue.Subject)
 						{
-							UpdateOneTask(task, issue);
 							
+							if ((DateTime)issue.UpdatedOn > task.LastModificationTime)
+							{
+								UpdateOneTask(task, issue);
 
+
+							}
+							else { UpdateOneTaskOutlook(task, issue); }
+							
 						}
-						isExist = false;
-						break;
+						else
+						{
+							isExist = true;//если такой задачи нет 
+
+							continue;
+						}
+
+						//temp += $"{task.Body}+{Environment.NewLine}";
+						//bool isCompleeted = task.Complete;//Check if your task is compleeted in your application you could use EntryID property to identify a task 
+						//if (isCompleeted == true && task.Status != OlTaskStatus.olTaskComplete)
+						//{
+						//	task.MarkComplete();
+						//	task.Save();
+						//}
+
+
+
 					}
-					else {
-						isExist = true;//если такой задачи нет 
+					if (progress.progressBar1.Value < progress.progressBar1.Maximum)
+					{
+						pr += 1;
+						progress.progressBar1.Value = pr;
 
-						continue; }
-					
-					//temp += $"{task.Body}+{Environment.NewLine}";
-					//bool isCompleeted = task.Complete;//Check if your task is compleeted in your application you could use EntryID property to identify a task 
-					//if (isCompleeted == true && task.Status != OlTaskStatus.olTaskComplete)
-					//{
-					//	task.MarkComplete();
-					//	task.Save();
-					//}
+					}
 
-					
+
+
 				}
+				catch (System.Exception ex)
+				{
+
+
+				}
+				
+				
 				if (isExist)
 				{
 					Outlook.TaskItem task = null;
 
 					task = (Outlook.TaskItem)Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olTaskItem);
 					task.Subject = issue.Subject;
+					AddedTastFromOutlook = task.Subject;
 					task.StartDate = (DateTime)issue.StartDate;
-					//task.DueDate =( DateTime)issue.DueDate;
+					if (issue.DueDate != null)
+					{
+						task.DueDate = (DateTime)issue.DueDate;
+					}
+					task.StartDate = (DateTime)issue.StartDate;
+					task.PercentComplete = (int)issue.DoneRatio;
 					task.Body = issue.Description;
+					//task.ReminderSet = true;
 					task.Save();
 					//newTaskItem.StartDate = (DateTime)issue.StartDate;
 					//newTaskItem.DueDate = (DateTime)issue.DueDate;
@@ -316,7 +361,7 @@ namespace RedmineOutlookAddIn
 
 				}
 			}
-
+			progress.Close();
 			MessageBox.Show("NewTAsk  " + AddedTastFromOutlook);
 
 
@@ -325,11 +370,28 @@ namespace RedmineOutlookAddIn
 
 		}
 
+		private void UpdateOneTaskOutlook(TaskItem task, Issue issue)
+		{
+			
+			issue.DoneRatio= task.PercentComplete;
+			issue.Description= task.Body;
+			
+		}
+
 		private void UpdateOneTask(TaskItem task, Issue issue)
 		{
-			//task.DueDate = (DateTime)issue.DueDate;
+			if (issue.DueDate != null)
+			{
+				task.DueDate = (DateTime)issue.DueDate;
+			}
+			task.StartDate = (DateTime)issue.StartDate;
+			task.PercentComplete =(int) issue.DoneRatio;
 			task.Body = issue.Description;
+			task.ReminderSet = true;
 			task.Save();
+			
+
+
 		}
 
 		private void button7_Click(object sender, RibbonControlEventArgs e)
@@ -378,6 +440,18 @@ namespace RedmineOutlookAddIn
 				MessageBox.Show(ex.Message+Environment.NewLine+"Авторезуйтесь");
 			}
 			
+		}
+
+		private void btnAddMyFormsTask_Click(object sender, RibbonControlEventArgs e)
+		{
+			AddForm addForm = new AddForm();
+			addForm.Show();
+		}
+
+		private void btnTaskTable_Click(object sender, RibbonControlEventArgs e)
+		{
+			//FormRegion3 formRegion2 = new FormRegion3();
+
 		}
 	}
 }

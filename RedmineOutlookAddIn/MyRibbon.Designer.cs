@@ -34,23 +34,30 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyRibbon));
 			this.tab2 = this.Factory.CreateRibbonTab();
 			this.group2 = this.Factory.CreateRibbonGroup();
 			this.menu1 = this.Factory.CreateRibbonMenu();
 			this.button4 = this.Factory.CreateRibbonButton();
 			this.button5 = this.Factory.CreateRibbonButton();
+			this.buttonUser = this.Factory.CreateRibbonButton();
 			this.group1 = this.Factory.CreateRibbonGroup();
 			this.buttonAddTask = this.Factory.CreateRibbonButton();
 			this.buttonCalendar = this.Factory.CreateRibbonButton();
 			this.group3 = this.Factory.CreateRibbonGroup();
 			this.buttonUpdate = this.Factory.CreateRibbonButton();
 			this.buttonSetting = this.Factory.CreateRibbonButton();
-			this.buttonUser = this.Factory.CreateRibbonButton();
+			this.group4 = this.Factory.CreateRibbonGroup();
+			this.btnAddMyFormsTask = this.Factory.CreateRibbonButton();
+			this.btnTaskTable = this.Factory.CreateRibbonButton();
+			this.progressBarArray1 = new Microsoft.VisualBasic.Compatibility.VB6.ProgressBarArray(this.components);
 			this.tab2.SuspendLayout();
 			this.group2.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.group3.SuspendLayout();
+			this.group4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.progressBarArray1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tab2
@@ -58,6 +65,7 @@
 			this.tab2.Groups.Add(this.group2);
 			this.tab2.Groups.Add(this.group1);
 			this.tab2.Groups.Add(this.group3);
+			this.tab2.Groups.Add(this.group4);
 			resources.ApplyResources(this.tab2, "tab2");
 			this.tab2.Name = "tab2";
 			// 
@@ -87,6 +95,13 @@
 			resources.ApplyResources(this.button5, "button5");
 			this.button5.Name = "button5";
 			this.button5.ShowImage = true;
+			// 
+			// buttonUser
+			// 
+			resources.ApplyResources(this.buttonUser, "buttonUser");
+			this.buttonUser.Name = "buttonUser";
+			this.buttonUser.ShowImage = true;
+			this.buttonUser.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonUser_Click);
 			// 
 			// group1
 			// 
@@ -134,12 +149,28 @@
 			this.buttonSetting.ShowImage = true;
 			this.buttonSetting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button3_Click);
 			// 
-			// buttonUser
+			// group4
 			// 
-			resources.ApplyResources(this.buttonUser, "buttonUser");
-			this.buttonUser.Name = "buttonUser";
-			this.buttonUser.ShowImage = true;
-			this.buttonUser.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonUser_Click);
+			this.group4.Items.Add(this.btnAddMyFormsTask);
+			this.group4.Items.Add(this.btnTaskTable);
+			resources.ApplyResources(this.group4, "group4");
+			this.group4.Name = "group4";
+			// 
+			// btnAddMyFormsTask
+			// 
+			this.btnAddMyFormsTask.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			resources.ApplyResources(this.btnAddMyFormsTask, "btnAddMyFormsTask");
+			this.btnAddMyFormsTask.Name = "btnAddMyFormsTask";
+			this.btnAddMyFormsTask.ShowImage = true;
+			this.btnAddMyFormsTask.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnAddMyFormsTask_Click);
+			// 
+			// btnTaskTable
+			// 
+			this.btnTaskTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			resources.ApplyResources(this.btnTaskTable, "btnTaskTable");
+			this.btnTaskTable.Name = "btnTaskTable";
+			this.btnTaskTable.ShowImage = true;
+			this.btnTaskTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnTaskTable_Click);
 			// 
 			// MyRibbon
 			// 
@@ -155,6 +186,9 @@
 			this.group1.PerformLayout();
 			this.group3.ResumeLayout(false);
 			this.group3.PerformLayout();
+			this.group4.ResumeLayout(false);
+			this.group4.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.progressBarArray1)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -172,6 +206,10 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton button5;
 		private Microsoft.Office.Tools.Ribbon.RibbonButton buttonUpdate;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonUser;
+		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAddMyFormsTask;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnTaskTable;
+		private Microsoft.VisualBasic.Compatibility.VB6.ProgressBarArray progressBarArray1;
 	}
 
 	partial class ThisRibbonCollection

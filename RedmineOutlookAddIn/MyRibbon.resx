@@ -6694,8 +6694,53 @@
   <data name="&gt;&gt;group3.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="btnAddMyFormsTask.Label" xml:space="preserve">
+    <value>addTask</value>
+  </data>
+  <data name="&gt;&gt;btnAddMyFormsTask.Name" xml:space="preserve">
+    <value>btnAddMyFormsTask</value>
+  </data>
+  <data name="&gt;&gt;btnAddMyFormsTask.Type" xml:space="preserve">
+    <value>Microsoft.VisualStudio.Tools.Office.Ribbon.View.ButtonView, Microsoft.VisualStudio.Tools.Office.Designer, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="&gt;&gt;btnAddMyFormsTask.Parent" xml:space="preserve">
+    <value>group4</value>
+  </data>
+  <data name="&gt;&gt;btnAddMyFormsTask.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnTaskTable.Label" xml:space="preserve">
+    <value>button1</value>
+  </data>
+  <data name="&gt;&gt;btnTaskTable.Name" xml:space="preserve">
+    <value>btnTaskTable</value>
+  </data>
+  <data name="&gt;&gt;btnTaskTable.Type" xml:space="preserve">
+    <value>Microsoft.VisualStudio.Tools.Office.Ribbon.View.ButtonView, Microsoft.VisualStudio.Tools.Office.Designer, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="&gt;&gt;btnTaskTable.Parent" xml:space="preserve">
+    <value>group4</value>
+  </data>
+  <data name="&gt;&gt;btnTaskTable.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="group4.Label" xml:space="preserve">
+    <value>group4</value>
+  </data>
+  <data name="&gt;&gt;group4.Name" xml:space="preserve">
+    <value>group4</value>
+  </data>
+  <data name="&gt;&gt;group4.Type" xml:space="preserve">
+    <value>Microsoft.VisualStudio.Tools.Office.Ribbon.View.GroupView, Microsoft.VisualStudio.Tools.Office.Designer, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="&gt;&gt;group4.Parent" xml:space="preserve">
+    <value>tab2</value>
+  </data>
+  <data name="&gt;&gt;group4.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="tab2.Label" xml:space="preserve">
-    <value>MyRedmine</value>
+    <value>Redmine</value>
   </data>
   <data name="&gt;&gt;tab2.Name" xml:space="preserve">
     <value>tab2</value>
@@ -6703,6 +6748,9 @@
   <data name="&gt;&gt;tab2.Type" xml:space="preserve">
     <value>Microsoft.VisualStudio.Tools.Office.Ribbon.View.TabView, Microsoft.VisualStudio.Tools.Office.Designer, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <metadata name="progressBarArray1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -6720,6 +6768,12 @@
   </data>
   <data name="&gt;&gt;MyRibbon.OfficeMenu.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="&gt;&gt;progressBarArray1.Name" xml:space="preserve">
+    <value>progressBarArray1</value>
+  </data>
+  <data name="&gt;&gt;progressBarArray1.Type" xml:space="preserve">
+    <value>Microsoft.VisualBasic.Compatibility.VB6.ProgressBarArray, Microsoft.VisualBasic.Compatibility, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MyRibbon</value>
