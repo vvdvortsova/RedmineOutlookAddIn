@@ -38,19 +38,19 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyRibbon));
 			this.tab2 = this.Factory.CreateRibbonTab();
 			this.group2 = this.Factory.CreateRibbonGroup();
+			this.group1 = this.Factory.CreateRibbonGroup();
+			this.separator1 = this.Factory.CreateRibbonSeparator();
+			this.progressBarArray1 = new Microsoft.VisualBasic.Compatibility.VB6.ProgressBarArray(this.components);
 			this.menu1 = this.Factory.CreateRibbonMenu();
 			this.button4 = this.Factory.CreateRibbonButton();
 			this.button5 = this.Factory.CreateRibbonButton();
 			this.buttonUser = this.Factory.CreateRibbonButton();
-			this.buttonSetting = this.Factory.CreateRibbonButton();
-			this.group1 = this.Factory.CreateRibbonGroup();
 			this.menuPROJECT = this.Factory.CreateRibbonMenu();
 			this.buttonCurretProject = this.Factory.CreateRibbonButton();
 			this.buttonChangeOrCreateProject = this.Factory.CreateRibbonButton();
+			this.buttonSetting = this.Factory.CreateRibbonButton();
 			this.buttonAddTask = this.Factory.CreateRibbonButton();
-			this.separator1 = this.Factory.CreateRibbonSeparator();
 			this.buttonUpdate = this.Factory.CreateRibbonButton();
-			this.progressBarArray1 = new Microsoft.VisualBasic.Compatibility.VB6.ProgressBarArray(this.components);
 			this.tab2.SuspendLayout();
 			this.group2.SuspendLayout();
 			this.group1.SuspendLayout();
@@ -72,6 +72,18 @@
 			resources.ApplyResources(this.group2, "group2");
 			this.group2.Name = "group2";
 			// 
+			// group1
+			// 
+			this.group1.Items.Add(this.buttonAddTask);
+			this.group1.Items.Add(this.separator1);
+			this.group1.Items.Add(this.buttonUpdate);
+			resources.ApplyResources(this.group1, "group1");
+			this.group1.Name = "group1";
+			// 
+			// separator1
+			// 
+			this.separator1.Name = "separator1";
+			// 
 			// menu1
 			// 
 			resources.ApplyResources(this.menu1, "menu1");
@@ -86,12 +98,14 @@
 			resources.ApplyResources(this.button4, "button4");
 			this.button4.Name = "button4";
 			this.button4.ShowImage = true;
+			this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
 			// 
 			// button5
 			// 
 			resources.ApplyResources(this.button5, "button5");
 			this.button5.Name = "button5";
 			this.button5.ShowImage = true;
+			this.button5.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button5_Click);
 			// 
 			// buttonUser
 			// 
@@ -99,22 +113,6 @@
 			this.buttonUser.Name = "buttonUser";
 			this.buttonUser.ShowImage = true;
 			this.buttonUser.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonUser_Click);
-			// 
-			// buttonSetting
-			// 
-			this.buttonSetting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			resources.ApplyResources(this.buttonSetting, "buttonSetting");
-			this.buttonSetting.Name = "buttonSetting";
-			this.buttonSetting.ShowImage = true;
-			this.buttonSetting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button3_Click);
-			// 
-			// group1
-			// 
-			this.group1.Items.Add(this.buttonAddTask);
-			this.group1.Items.Add(this.separator1);
-			this.group1.Items.Add(this.buttonUpdate);
-			resources.ApplyResources(this.group1, "group1");
-			this.group1.Name = "group1";
 			// 
 			// menuPROJECT
 			// 
@@ -138,6 +136,14 @@
 			this.buttonChangeOrCreateProject.ShowImage = true;
 			this.buttonChangeOrCreateProject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonChangeOrCreateProject_Click);
 			// 
+			// buttonSetting
+			// 
+			this.buttonSetting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			resources.ApplyResources(this.buttonSetting, "buttonSetting");
+			this.buttonSetting.Name = "buttonSetting";
+			this.buttonSetting.ShowImage = true;
+			this.buttonSetting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button3_Click);
+			// 
 			// buttonAddTask
 			// 
 			this.buttonAddTask.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -145,10 +151,6 @@
 			this.buttonAddTask.Name = "buttonAddTask";
 			this.buttonAddTask.ShowImage = true;
 			this.buttonAddTask.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
-			// 
-			// separator1
-			// 
-			this.separator1.Name = "separator1";
 			// 
 			// buttonUpdate
 			// 

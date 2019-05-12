@@ -210,6 +210,12 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="AboutAddInProject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutAddInProject.Designer.cs">
+      <DependentUpon>AboutAddInProject.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -232,6 +238,12 @@
       <DependentUpon>Connection.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
+    <Compile Include="HelperWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperWindow.Designer.cs">
+      <DependentUpon>HelperWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyRibbon.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -262,6 +274,9 @@
     <Compile Include="WikiEditor.xaml.cs">
       <DependentUpon>WikiEditor.xaml</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AboutAddInProject.resx">
+      <DependentUpon>AboutAddInProject.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddForm.resx">
       <DependentUpon>AddForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -270,6 +285,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Connection.resx">
       <DependentUpon>Connection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperWindow.resx">
+      <DependentUpon>HelperWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyRibbon.resx">
       <DependentUpon>MyRibbon.cs</DependentUpon>

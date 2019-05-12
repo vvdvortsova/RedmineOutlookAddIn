@@ -373,11 +373,12 @@ namespace RedmineOutlookAddIn
 							{
 
 								UpdateOneTaskOutlook(task, issue);
-
+								
 								break;
 							}
 							else
 							{
+								
 								UpdateOneTaskRedmine(task, issue);
 								break;
 							}
@@ -468,9 +469,40 @@ namespace RedmineOutlookAddIn
 
 
 			}
-			else
+			if (issue.Children != null)
 			{
-				//MessageBox.Show("Нет родителя");
+				MessageBox.Show("ребенок есть");
+				Issue childrenRedmine = null;
+				flagEistParentInOutlook = false;
+
+				childrenRedmine = manager.GetObject<Issue>(issue.Children.ToString(), new NameValueCollection());
+				foreach (var taskID in OutlookTasks)
+				{
+					//если есть такая задача в текущей папке, то просто в свойстве добавляем ее ид
+					if (taskID.Key == childrenRedmine.Subject)
+					{
+						Outlook.NameSpace ns = Globals.ThisAddIn.Application.Session;
+
+
+						Outlook.TaskItem chiledrenOutlook = (Outlook.TaskItem)ns.GetItemFromID(taskID.Value);
+						outlookTaskParent = task.EntryID;
+						chiledrenOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+						chiledrenOutlook.UserProperties["Parent"].Value = outlookTaskParent;
+						MessageBox.Show($"В задачу ***{chiledrenOutlook.Subject}*** добавлен родитель ***{task.Subject}***");
+						flagEistParentInOutlook = true;
+					}
+
+				}
+				//если нет то создаем ее в текущей папке и добавляем ее ид в свойства
+				if (!flagEistParentInOutlook)
+				{
+					Outlook.TaskItem childernItemOutlook = CreateNewTaskOutlook(childrenRedmine);
+					outlookTaskParent = task.EntryID;
+					childernItemOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+					childernItemOutlook.UserProperties["Parent"].Value = outlookTaskParent;
+					MessageBox.Show($"В задачу ***{childernItemOutlook.Subject}*** создан и добавлен ***{task.Subject}***");
+				}
+
 			}
 			task.StartDate = (DateTime)issue.StartDate;
 			if (issue.DueDate != null)
@@ -492,7 +524,7 @@ namespace RedmineOutlookAddIn
 		/// <param name="issue">задача Redmine</param>
 		private void UpdateOneTaskRedmine(TaskItem task, Issue issue)
 		{
-
+			
 			issue.DoneRatio = task.PercentComplete;
 			issue.Description = task.Body;
 			issue.StartDate = task.StartDate;
@@ -510,6 +542,75 @@ namespace RedmineOutlookAddIn
 		/// <param name="issue">задача Redmine</param>
 		private void UpdateOneTaskOutlook(TaskItem task, Issue issue)
 		{
+			Dictionary<string, string> OutlookTasks = GetTasksFromCurrentFolder();
+			//To Do чтобы сохраняла в текущий фолдер !!!!!
+			task = (Outlook.TaskItem)CustomFolder.Items.Add(Outlook.OlItemType.olTaskItem);
+			task.Subject = issue.Subject;
+			Issue parentRedmine = null;
+			bool flagEistParentInOutlook = false;
+			if (issue.ParentIssue != null)
+			{
+				parentRedmine = manager.GetObject<Issue>(issue.ParentIssue.Id.ToString(), new NameValueCollection());
+				foreach (var taskID in OutlookTasks)
+				{
+					//если есть такая задача в текущей папке, то просто в свойстве добавляем ее ид
+					if (taskID.Key == parentRedmine.Subject)
+					{
+						outlookTaskParent = taskID.Value;
+						task.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+						task.UserProperties["Parent"].Value = outlookTaskParent;
+						MessageBox.Show($"В задачу ***{task.Subject}*** добавлен родитель ***{parentRedmine.Subject}***");
+						flagEistParentInOutlook = true;
+					}
+
+				}
+				//если нет то создаем ее в текущей папке и добавляем ее ид в свойства
+				if (!flagEistParentInOutlook)
+				{
+					Outlook.TaskItem parentItemOutlook = CreateNewTaskOutlook(parentRedmine);
+					outlookTaskParent = parentItemOutlook.EntryID;
+					task.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+					task.UserProperties["Parent"].Value = outlookTaskParent;
+					MessageBox.Show($"В задачу ***{task.Subject}*** создан и добавлен ***{parentItemOutlook.Subject}***");
+				}
+
+
+			}
+			if (issue.Children != null)
+			{
+				
+				Issue childrenRedmine = null;
+				flagEistParentInOutlook = false;
+			
+					childrenRedmine = manager.GetObject<Issue>(issue.Children.ToString(), new NameValueCollection());
+					foreach (var taskID in OutlookTasks)
+					{
+						//если есть такая задача в текущей папке, то просто в свойстве добавляем ее ид
+						if (taskID.Key == childrenRedmine.Subject)
+						{
+							Outlook.NameSpace ns = Globals.ThisAddIn.Application.Session;
+
+
+							Outlook.TaskItem chiledrenOutlook = (Outlook.TaskItem)ns.GetItemFromID(taskID.Value);
+							outlookTaskParent = task.EntryID;
+							chiledrenOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+							chiledrenOutlook.UserProperties["Parent"].Value = outlookTaskParent;
+							MessageBox.Show($"В задачу ***{chiledrenOutlook.Subject}*** добавлен родитель ***{task.Subject}***");
+							flagEistParentInOutlook = true;
+						}
+
+					}
+					//если нет то создаем ее в текущей папке и добавляем ее ид в свойства
+					if (!flagEistParentInOutlook)
+					{
+						Outlook.TaskItem childernItemOutlook = CreateNewTaskOutlook(childrenRedmine);
+						outlookTaskParent = task.EntryID;
+						childernItemOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+						childernItemOutlook.UserProperties["Parent"].Value = outlookTaskParent;
+						MessageBox.Show($"В задачу ***{childernItemOutlook.Subject}*** создан и добавлен ***{task.Subject}***");
+					}
+
+			}
 			if (issue.DueDate != null)
 			{
 				task.DueDate = (DateTime)issue.DueDate;
@@ -588,6 +689,16 @@ namespace RedmineOutlookAddIn
 
 		}
 
+		private void button5_Click(object sender, RibbonControlEventArgs e)
+		{
+			HelperWindow helperWindow = new HelperWindow();
+			helperWindow.Show();
+		}
 
+		private void button4_Click(object sender, RibbonControlEventArgs e)
+		{
+			AboutAddInProject aboutAdd = new AboutAddInProject();
+			aboutAdd.Show();
+		}
 	}
 }
