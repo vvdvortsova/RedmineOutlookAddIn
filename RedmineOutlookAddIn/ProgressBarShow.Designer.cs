@@ -1,5 +1,8 @@
-﻿namespace RedmineOutlookAddIn
+﻿using System.Diagnostics;
+
+namespace RedmineOutlookAddIn
 {
+	[DebuggerStepThrough]
 	partial class ProgressBarShow
 	{
 		/// <summary>
@@ -39,8 +42,7 @@
 			this.progressBar1.Name = "progressBar1";
 			this.progressBar1.Size = new System.Drawing.Size(199, 23);
 			this.progressBar1.TabIndex = 0;
-			this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
-			// 
+			
 			// ProgressBarShow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

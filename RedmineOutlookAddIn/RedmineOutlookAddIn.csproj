@@ -140,6 +140,8 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.Compatibility" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="Redmine.Net.Api, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\redmine-net-api.0.10\lib\net\Redmine.Net.Api.dll</HintPath>
     </Reference>
@@ -151,11 +153,13 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Tools.v4.0.Framework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -212,29 +216,20 @@
     <Compile Include="AddForm.Designer.cs">
       <DependentUpon>AddForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="addForm.xaml.cs">
+      <DependentUpon>addForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddOrChangeProjectWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddOrChangeProjectWindow.Designer.cs">
+      <DependentUpon>AddOrChangeProjectWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Connection.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Connection.Designer.cs">
       <DependentUpon>Connection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormRegion1.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FormRegion1.Designer.cs">
-      <DependentUpon>FormRegion1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormRegion2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FormRegion2.Designer.cs">
-      <DependentUpon>FormRegion2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormRegion3.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FormRegion3.Designer.cs">
-      <DependentUpon>FormRegion3.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="MyRibbon.cs">
@@ -253,26 +248,28 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Resources.Designer.cs" />
-    <Compile Include="WikiEditor.cs">
+    <Compile Include="Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ShowTaskOrShowParentTaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WikiEditor.Designer.cs">
-      <DependentUpon>WikiEditor.cs</DependentUpon>
+    <Compile Include="ShowTaskOrShowParentTaskForm.Designer.cs">
+      <DependentUpon>ShowTaskOrShowParentTaskForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WikiEditor.xaml.cs">
+      <DependentUpon>WikiEditor.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AddForm.resx">
       <DependentUpon>AddForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddOrChangeProjectWindow.resx">
+      <DependentUpon>AddOrChangeProjectWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Connection.resx">
       <DependentUpon>Connection.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormRegion1.resx">
-      <DependentUpon>FormRegion1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormRegion2.resx">
-      <DependentUpon>FormRegion2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormRegion3.resx">
-      <DependentUpon>FormRegion3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyRibbon.resx">
       <DependentUpon>MyRibbon.cs</DependentUpon>
@@ -289,9 +286,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Resources.resx" />
-    <EmbeddedResource Include="WikiEditor.resx">
-      <DependentUpon>WikiEditor.cs</DependentUpon>
+    <EmbeddedResource Include="Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowTaskOrShowParentTaskForm.resx">
+      <DependentUpon>ShowTaskOrShowParentTaskForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
@@ -308,6 +309,11 @@
       <SubType>Code</SubType>
     </Compile>
     <None Include="RedmineOutlookAddIn_TemporaryKey.pfx" />
+    <None Include="Resources\Character Formatting1.docx" />
+    <None Include="Resources\Lists1.docx" />
+    <None Include="Resources\Paragraph Formatting1.docx" />
+    <None Include="Resources\Simple Table1.docx" />
+    <None Include="Resources\Style Resolution1.docx" />
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.cs</DependentUpon>
     </None>
@@ -317,6 +323,15 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="mscoree">
+      <Guid>{5477469E-83B1-11D2-8B49-00A0C9B7C9C4}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="MSExchangeLib">
       <Guid>{0AF7F3BE-8EA9-4816-889E-3ED22871FE05}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -341,6 +356,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resourses\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="addForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WikiEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

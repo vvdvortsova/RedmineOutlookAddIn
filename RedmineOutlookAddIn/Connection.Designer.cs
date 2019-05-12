@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Connection));
 			this.checkBoxRemeberApiUrl = new System.Windows.Forms.CheckBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -163,6 +164,7 @@
 			this.Controls.Add(this.textBoxApiKey);
 			this.Controls.Add(this.button3);
 			this.Controls.Add(this.label3);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Connection";
 			this.Text = "Connection";
 			this.Load += new System.EventHandler(this.Connection_Load);

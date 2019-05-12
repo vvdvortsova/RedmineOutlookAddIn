@@ -11,16 +11,27 @@ using Redmine.Net.Api.Types;
 using System.Collections.Specialized;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
-using System.Windows.Forms;
-using MsoTDAddinLib;
+
+
 using System.AddIn;
 using Microsoft.Office.Interop.Outlook;
 using System.Data;
 
+
+using System.IO;
+
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using Microsoft.Win32;
+using System.Windows.Controls;
+
 namespace RedmineOutlookAddIn
 {
+	
 	public class Helper
 	{
+
 		public void AddTask(RedmineManager manager,RedmineOutlookAddIn.ThisAddIn thisAddIn)
 		{
 			try
@@ -65,7 +76,7 @@ namespace RedmineOutlookAddIn
 				MessageBox.Show("The following error occurred: " + ex.Message); throw;
 			}
 
-
+			
 		}
 	}
 }

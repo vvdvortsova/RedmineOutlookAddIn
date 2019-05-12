@@ -55,5 +55,17 @@ namespace RedmineOutlookAddIn.Properties {
                 return ((string)(this["manager"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Redmine")]
+        public string CurrentFolder {
+            get {
+                return ((string)(this["CurrentFolder"]));
+            }
+            set {
+                this["CurrentFolder"] = value;
+            }
+        }
     }
 }

@@ -9,208 +9,118 @@ using System.Windows.Forms;
 using Redmine.Net.Api;
 using Redmine.Net.Api.Types;
 using System.Collections.Specialized;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
-using System.Windows.Forms;
-using MsoTDAddinLib;
-using System.AddIn;
+
 using Microsoft.Office.Interop.Outlook;
-using System.Data;
-using Microsoft.Office.Tools.Ribbon;
+
 
 namespace RedmineOutlookAddIn
 {
-   
+
 	public partial class ThisAddIn
 	{
-		
-		private Office.CommandBar _objOtherMenuBar;
-		private Office.CommandBarPopup _objNewOtherMenuBar;
-		private Office.CommandBar _objMenuBar;
-		private Office.CommandBarPopup _objNewMenuBar;
+
+
 		private Outlook.Inspectors Inspectors;
-		private Office.CommandBarButton _objButtonForSom;//Кнопка в надстройке
-		private Office.CommandBarButton _objButton;//Кнопка в надстройке
-		private Office.CommandBarButton _objButtonRegistration;//кнопка окна регистрации
-		private Office.CommandBarButton _objButtonUpdate;//по приколу
-		internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1 ;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton RibButton1;
-		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
+
 		static string host = "http://79.137.216.214/redmine/";
 		static string apiKey = "4444025d7e83c49e92466b5399ba7ee06c464637";
-		public static  RedmineManager manager = new RedmineManager(host, apiKey);
-		
-		//MyRibbon myRibbon = new MyRibbon();
-		//protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
-		//{
-		//	return new MyRibbon2();
-		//}
-		//First we try to get the default toolbar
-		
-		private string menuTag = "MyfirstPlugin";
+		public static RedmineManager manager = new RedmineManager(host, apiKey);
+
+
+
+		internal Object selObject = null;
+		internal Outlook.Explorer currentExplorer = null;
 		private void ThisAddIn_Startup(object sender, System.EventArgs e)
 		{
-			
-			
-			
-			
-			
-			
-		}
-		//private void AddButtonsToMenu()
-		//{
-		//	////RibbonButton tempButton = Ta.Factory.CreateRibbonButton();
-		//	//tempButton.Label = "Button 1";
-		//	//tempButton.ControlSize =
-		//	//	Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-		//	//tempButton.Description = "My Ribbon Button";
-		//	//tempButton.ShowImage = true;
-		//	//tempButton.ShowImage = true;
-			
-			
 
-		//}
+			currentExplorer = this.Application.ActiveExplorer();
+			currentExplorer.SelectionChange += new Outlook
+				.ExplorerEvents_10_SelectionChangeEventHandler
+				(CurrentExplorer_Event);
 
-		
 
-		private void _objButton1_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
-		{
-			throw new NotImplementedException();
 		}
 
-		private void MyOtherBar()
+		private void CurrentExplorer_Event()
 		{
-			//this.ErsMyMenuBar();
+			Outlook.MAPIFolder selectedFolder =
+				this.Application.ActiveExplorer().CurrentFolder;
+			String expMessage = "Your current folder is "
+				+ selectedFolder.Name + ".\n";
+			String itemMessage = "Item is unknown.";
 			try
 			{
+				if (this.Application.ActiveExplorer().Selection.Count > 0)
+				{
+					selObject = this.Application.ActiveExplorer().Selection[1];
+					if (selObject is Outlook.MailItem)
+					{
+						Outlook.MailItem mailItem =
+							(selObject as Outlook.MailItem);
+						itemMessage = "The item is an e-mail message." +
+							" The subject is " + mailItem.Subject + ".";
+						mailItem.Display(false);
+					}
+					else if (selObject is Outlook.ContactItem)
+					{
+						Outlook.ContactItem contactItem =
+							(selObject as Outlook.ContactItem);
+						itemMessage = "The item is a contact." +
+							" The full name is " + contactItem.Subject + ".";
+						contactItem.Display(false);
+					}
+					else if (selObject is Outlook.AppointmentItem)
+					{
+						Outlook.AppointmentItem apptItem =
+							(selObject as Outlook.AppointmentItem);
+						itemMessage = "The item is an appointment." +
+							" The subject is " + apptItem.Subject + ".";
+					}
+					else if (selObject is Outlook.TaskItem)
+					{
+						Outlook.TaskItem taskItem =
+							(selObject as Outlook.TaskItem);
+						itemMessage = "The item is a task. The body is "
+							+ taskItem.Body + ".";
+						ShowTaskOrShowParentTaskForm showTask = new ShowTaskOrShowParentTaskForm();
+						showTask.Show();
 
 
-				//_objOtherMenuBar = this.Application.ActiveExplorer().CommandBars.ActiveMenuBar;
-				
-				//_objNewOtherMenuBar = (Office.CommandBarPopup)
-				//				 _objOtherMenuBar.Controls.Add(Office.MsoControlType.msoControlPopup
-				//										, missing
-				//										, missing
-				//										, missing
-				//										, true);
-
-				//if (_objNewOtherMenuBar != null)
-				//{
-
-
-				//	_objNewOtherMenuBar.Caption = "Другое меню";
-				//	_objNewOtherMenuBar.Tag = menuTag;
-
-				//	_objButtonRegistration = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
-				//	Add(Office.MsoControlType.msoControlButton, missing,
-				//		missing, 1, true);
-				//	_objButton = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
-				//	Add(Office.MsoControlType.msoControlButton, missing,
-				//		missing, 1, true);
-				//	//_objButton.Picture = "redmine.ico";
-				//	_objButtonUpdate = (Office.CommandBarButton)_objNewOtherMenuBar.Controls.
-				//	Add(Office.MsoControlType.msoControlButton, missing,
-				//		missing, 1, true);
-				//	_objButtonUpdate.Caption = "Update";
-				//	_objButtonUpdate.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonUpdate_Click);
-				//	_objButtonRegistration.Caption = "Настройки";
-				//	_objButtonRegistration.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonRegistration_Click);
-				//	_objButton.Caption = "Добавить задачу";
-				//	//Icon 
-				//	_objButton.FaceId = 5000;
-				//	_objButton.Tag = "ItemTag";
-				//	//EventHandler
-				//	_objButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButton_Click);
-				//	_objNewMenuBar.Visible = true;
-
-				//}
+					}
+					else if (selObject is Outlook.MeetingItem)
+					{
+						Outlook.MeetingItem meetingItem =
+							(selObject as Outlook.MeetingItem);
+						itemMessage = "The item is a meeting item. " +
+							 "The subject is " + meetingItem.Subject + ".";
+					}
+				}
+				expMessage = expMessage + itemMessage;
 			}
 			catch (System.Exception ex)
 			{
-				System.Windows.Forms.MessageBox.Show("Error: " + ex.Message.ToString()
-												   , "Error Message");
+				expMessage = ex.Message;
 			}
+			MessageBox.Show(expMessage);
 		}
+
+
 
 		private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
 		{
+
 			// Note: Outlook no longer raises this event. If you have code that 
 			//    must run when Outlook shuts down, see https://go.microsoft.com/fwlink/?LinkId=506785
 		}
 
 
 		#region "Outlook07 Menu"
-		private void MyMenuBar()
-		{
-			this.ErsMyMenuBar();
-			
-			try
-			{
 
-				
-				_objMenuBar = this.Application.ActiveExplorer().CommandBars.ActiveMenuBar;
-				_objNewMenuBar = (Office.CommandBarPopup)
-								 _objMenuBar.Controls.Add(Office.MsoControlType.msoControlPopup
-														, missing
-														, missing
-														, missing
-														, false);
-
-				if (_objNewMenuBar != null)
-				{
-
-
-					_objNewMenuBar.Caption = "Главное меню";
-					_objNewMenuBar.Tag = menuTag;
-					
-					_objButtonRegistration = (Office.CommandBarButton)_objNewMenuBar.Controls.
-					Add(Office.MsoControlType.msoControlButton, missing,
-						missing, 1, true);
-					_objButton = (Office.CommandBarButton)_objNewMenuBar.Controls.
-					Add(Office.MsoControlType.msoControlButton, missing,
-						missing, 1, true);
-					//_objButton.Picture = "redmine.ico";
-					_objButtonUpdate = (Office.CommandBarButton)_objNewMenuBar.Controls.
-					Add(Office.MsoControlType.msoControlButton, missing,
-						missing, 1, true);
-					_objButtonUpdate.Caption = "Update";
-					_objButtonUpdate.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonUpdate_Click);
-					_objButtonRegistration.Caption = "Настройки";
-					_objButtonRegistration.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButtonRegistration_Click);
-					_objButton.Caption = "Добавить задачу";
-					//Icon 
-					_objButton.FaceId = 5000;
-					_objButton.Tag = "ItemTag";
-					//EventHandler
-					_objButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(_objButton_Click);
-					_objNewMenuBar.Visible = true;
-
-				}
-			}
-			catch (System.Exception ex)
-			{
-				System.Windows.Forms.MessageBox.Show("Error: " + ex.Message.ToString()
-												   , "Error Message");
-			}
-
-		}
-
-		private void _objButtonUpdate_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
-		{
-			//try
-			//{
-				TasksUpdates();
-			//}
-			//catch (System.Exception ex)
-			//{
-
-				//MessageBox.Show(ex.Message);
-			//}
-		}
+		
 
 		private void TasksUpdates()
 		{
-			
+
 			Outlook.NameSpace namespce = null;
 			Outlook.Items tasks = null;
 			Outlook.Application oApp = new Outlook.Application();
@@ -220,32 +130,32 @@ namespace RedmineOutlookAddIn
 			string tmpRedm = string.Empty;
 			bool isExist = false;
 			string AddedTastFromOutlook = string.Empty;
-			
-				foreach (Issue issue in manager.GetObjectList<Issue>(new NameValueCollection()))
-				{
-					foreach (Outlook.TaskItem task in tasks)
-					{
-						if (task.Subject == issue.Subject)
-						{
-							if ((DateTime)issue.UpdatedOn > task.LastModificationTime)
-							{
-								UpdateOneTask(task, issue);
-							}
-							isExist = true;
-							continue;
-						}
 
-						temp += $"{task.Body}+{Environment.NewLine}";
-						bool isCompleeted = task.Complete;//Check if your task is compleeted in your application you could use EntryID property to identify a task 
-						if (isCompleeted == true && task.Status != OlTaskStatus.olTaskComplete)
+			foreach (Issue issue in manager.GetObjectList<Issue>(new NameValueCollection()))
+			{
+				foreach (Outlook.TaskItem task in tasks)
+				{
+					if (task.Subject == issue.Subject)
+					{
+						if ((DateTime)issue.UpdatedOn > task.LastModificationTime)
 						{
-							task.MarkComplete();
-							task.Save();
+							UpdateOneTask(task, issue);
 						}
+						isExist = true;
+						continue;
+					}
+
+					temp += $"{task.Body}+{Environment.NewLine}";
+					bool isCompleeted = task.Complete;//Check if your task is compleeted in your application you could use EntryID property to identify a task 
+					if (isCompleeted == true && task.Status != OlTaskStatus.olTaskComplete)
+					{
+						task.MarkComplete();
+						task.Save();
+					}
 
 					isExist = false;
-					}
-					if (isExist)
+				}
+				if (isExist)
 				{
 					Outlook.TaskItem task = null;
 
@@ -261,13 +171,13 @@ namespace RedmineOutlookAddIn
 
 					//Create a issue.
 
-					
-					}
-				}
 
-			MessageBox.Show("NewTAsk  "+AddedTastFromOutlook);
-			
-			
+				}
+			}
+
+			MessageBox.Show("NewTAsk  " + AddedTastFromOutlook);
+
+
 
 
 
@@ -277,7 +187,7 @@ namespace RedmineOutlookAddIn
 		{
 			//task.DueDate = (DateTime)issue.DueDate;
 			task.Body = issue.Description;
-			
+
 		}
 
 
@@ -292,95 +202,47 @@ namespace RedmineOutlookAddIn
 		}
 		#endregion
 
-		#region "Event Handler"
-		#region "Menu Button"
-		private void _objButtonRegistration_Click(Office.CommandBarButton ctrl,ref bool cancel)
-		{
 
-			try
-			{
-				var conectMenu = new Connection();
-				conectMenu.Show();
 
-			}
-			catch (System.Exception ex)
-			{
-				System.Windows.Forms.MessageBox.Show("Error " + ex.Message.ToString() + $"/n{ex.StackTrace}");
-			}
-		}
-		private void _objButton_Click(Office.CommandBarButton ctrl, ref bool cancel)
+
+
+		internal void AddTask()
 		{
 			try
 			{
-				AddTask();
 
-			}
-			catch (System.Exception ex)
-			{
-				System.Windows.Forms.MessageBox.Show("Error " + ex.Message.ToString() + $"/n{ex.StackTrace}");
-			}
-		}
-
-
-		#endregion
-
-		#region "Remove Existing"
-
-		private void ErsMyMenuBar()
-		{
-			// If the menu already exists, remove it.
-			try
-			{
-				
-			}
-			catch (System.Exception ex)
-			{
-				System.Windows.Forms.MessageBox.Show("Error: " + ex.Message.ToString()
-												   , "Error Message");
-			}
-		}
-		
-		 internal  void AddTask()
-		{
-			try
-			{
-				
 				Outlook.TaskItem newTaskItem =
 					(Outlook.TaskItem)this.Application.CreateItem(Outlook.OlItemType.olTaskItem);
 				newTaskItem.StartDate = DateTime.Now.AddHours(2);
 
-				
+
 				newTaskItem.Body = "Try to create a task";
 				//Create a issue.
 
 				newTaskItem.Save();
 				newTaskItem.Display("True");
 
-				var newIssue = new Issue { Subject = newTaskItem.Subject,
+				var newIssue = new Issue
+				{
+					Subject = newTaskItem.Subject,
 					Project = new IdentifiableName { Id = 1 },
 					Description = newTaskItem.Body,
 					StartDate = newTaskItem.StartDate,
 					DueDate = newTaskItem.DueDate,
-					
-					};
-					manager.CreateObject(newIssue);
-				
-				
-				
-					
 
-				
-				
-				
+				};
+				manager.CreateObject(newIssue);
+
+
 				string str = string.Empty;
 				manager.GetObjectList<Issue>(new NameValueCollection());
 				foreach (var item in manager.GetObjectList<Issue>(new NameValueCollection()))
 				{
-					str += item.Description+$"{Environment.NewLine}";
+					str += item.Description + $"{Environment.NewLine}";
 				}
 				string task_list = string.Empty;
-				
-				MessageBox.Show(manager.ToString()+$"{Environment.NewLine}"+str);
+
+				MessageBox.Show(manager.ToString() + $"{Environment.NewLine}" + str);
 
 			}
 			catch (System.Exception ex)
@@ -389,42 +251,8 @@ namespace RedmineOutlookAddIn
 				MessageBox.Show("The following error occurred: " + ex.Message); throw;
 			}
 		}
-		private void AddAppointment()
-		{
-			try
-			{
-				Outlook.AppointmentItem newAppointment =
-					(Outlook.AppointmentItem)
-				this.Application.CreateItem(Outlook.OlItemType.olAppointmentItem);
-				newAppointment.Start = DateTime.Now.AddHours(2);
-				newAppointment.End = DateTime.Now.AddHours(3);
-				newAppointment.Location = "ConferenceRoom #2345";
-				newAppointment.Body =
-					"We will discuss progress on the group project.";
-				newAppointment.AllDayEvent = false;
-				newAppointment.Subject = "Group Project";
-				newAppointment.Recipients.Add("Roger Harui");
-				Outlook.Recipients sentTo = newAppointment.Recipients;
-				Outlook.Recipient sentInvite = null;
-				sentInvite = sentTo.Add("Holly Holt");
-				sentInvite.Type = (int)Outlook.OlMeetingRecipientType
-					.olRequired;
-				sentInvite = sentTo.Add("David Junca ");
-				sentInvite.Type = (int)Outlook.OlMeetingRecipientType
-					.olOptional;
-				sentTo.ResolveAll();
-				newAppointment.Save();
-				newAppointment.Display(true);
-			}
-			catch (System.Exception ex)
-			{
-				MessageBox.Show("The following error occurred: " + ex.Message);
-			}
-		}
 
-		#endregion
 
-		#endregion
 	}
 }
 

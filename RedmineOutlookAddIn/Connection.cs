@@ -42,7 +42,7 @@ namespace RedmineOutlookAddIn
 						RedmineOutlookAddIn.Properties.Settings.Default.apyKey = textBoxApiKey.Text;
 						RedmineOutlookAddIn.Properties.Settings.Default.host = textBoxUrl.Text;
 						RedmineOutlookAddIn.Properties.Settings.Default.Save();
-						MessageBox.Show("You are registrated");
+						MessageBox.Show("Вход выполнен успешно");
 					}
 				}
 				catch (Exception EX)

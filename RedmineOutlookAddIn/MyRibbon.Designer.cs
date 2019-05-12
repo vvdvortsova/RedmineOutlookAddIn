@@ -42,21 +42,18 @@
 			this.button4 = this.Factory.CreateRibbonButton();
 			this.button5 = this.Factory.CreateRibbonButton();
 			this.buttonUser = this.Factory.CreateRibbonButton();
-			this.group1 = this.Factory.CreateRibbonGroup();
-			this.buttonAddTask = this.Factory.CreateRibbonButton();
-			this.buttonCalendar = this.Factory.CreateRibbonButton();
-			this.group3 = this.Factory.CreateRibbonGroup();
-			this.buttonUpdate = this.Factory.CreateRibbonButton();
 			this.buttonSetting = this.Factory.CreateRibbonButton();
-			this.group4 = this.Factory.CreateRibbonGroup();
-			this.btnAddMyFormsTask = this.Factory.CreateRibbonButton();
-			this.btnTaskTable = this.Factory.CreateRibbonButton();
+			this.group1 = this.Factory.CreateRibbonGroup();
+			this.menuPROJECT = this.Factory.CreateRibbonMenu();
+			this.buttonCurretProject = this.Factory.CreateRibbonButton();
+			this.buttonChangeOrCreateProject = this.Factory.CreateRibbonButton();
+			this.buttonAddTask = this.Factory.CreateRibbonButton();
+			this.separator1 = this.Factory.CreateRibbonSeparator();
+			this.buttonUpdate = this.Factory.CreateRibbonButton();
 			this.progressBarArray1 = new Microsoft.VisualBasic.Compatibility.VB6.ProgressBarArray(this.components);
 			this.tab2.SuspendLayout();
 			this.group2.SuspendLayout();
 			this.group1.SuspendLayout();
-			this.group3.SuspendLayout();
-			this.group4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.progressBarArray1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -64,14 +61,14 @@
 			// 
 			this.tab2.Groups.Add(this.group2);
 			this.tab2.Groups.Add(this.group1);
-			this.tab2.Groups.Add(this.group3);
-			this.tab2.Groups.Add(this.group4);
 			resources.ApplyResources(this.tab2, "tab2");
 			this.tab2.Name = "tab2";
 			// 
 			// group2
 			// 
 			this.group2.Items.Add(this.menu1);
+			this.group2.Items.Add(this.menuPROJECT);
+			this.group2.Items.Add(this.buttonSetting);
 			resources.ApplyResources(this.group2, "group2");
 			this.group2.Name = "group2";
 			// 
@@ -103,12 +100,43 @@
 			this.buttonUser.ShowImage = true;
 			this.buttonUser.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonUser_Click);
 			// 
+			// buttonSetting
+			// 
+			this.buttonSetting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			resources.ApplyResources(this.buttonSetting, "buttonSetting");
+			this.buttonSetting.Name = "buttonSetting";
+			this.buttonSetting.ShowImage = true;
+			this.buttonSetting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button3_Click);
+			// 
 			// group1
 			// 
 			this.group1.Items.Add(this.buttonAddTask);
-			this.group1.Items.Add(this.buttonCalendar);
+			this.group1.Items.Add(this.separator1);
+			this.group1.Items.Add(this.buttonUpdate);
 			resources.ApplyResources(this.group1, "group1");
 			this.group1.Name = "group1";
+			// 
+			// menuPROJECT
+			// 
+			resources.ApplyResources(this.menuPROJECT, "menuPROJECT");
+			this.menuPROJECT.Items.Add(this.buttonCurretProject);
+			this.menuPROJECT.Items.Add(this.buttonChangeOrCreateProject);
+			this.menuPROJECT.Name = "menuPROJECT";
+			this.menuPROJECT.ShowImage = true;
+			// 
+			// buttonCurretProject
+			// 
+			resources.ApplyResources(this.buttonCurretProject, "buttonCurretProject");
+			this.buttonCurretProject.Name = "buttonCurretProject";
+			this.buttonCurretProject.ShowImage = true;
+			this.buttonCurretProject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCurretProject_Click);
+			// 
+			// buttonChangeOrCreateProject
+			// 
+			resources.ApplyResources(this.buttonChangeOrCreateProject, "buttonChangeOrCreateProject");
+			this.buttonChangeOrCreateProject.Name = "buttonChangeOrCreateProject";
+			this.buttonChangeOrCreateProject.ShowImage = true;
+			this.buttonChangeOrCreateProject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonChangeOrCreateProject_Click);
 			// 
 			// buttonAddTask
 			// 
@@ -118,20 +146,9 @@
 			this.buttonAddTask.ShowImage = true;
 			this.buttonAddTask.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
 			// 
-			// buttonCalendar
+			// separator1
 			// 
-			this.buttonCalendar.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			resources.ApplyResources(this.buttonCalendar, "buttonCalendar");
-			this.buttonCalendar.Name = "buttonCalendar";
-			this.buttonCalendar.ShowImage = true;
-			this.buttonCalendar.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button2_Click);
-			// 
-			// group3
-			// 
-			this.group3.Items.Add(this.buttonUpdate);
-			this.group3.Items.Add(this.buttonSetting);
-			resources.ApplyResources(this.group3, "group3");
-			this.group3.Name = "group3";
+			this.separator1.Name = "separator1";
 			// 
 			// buttonUpdate
 			// 
@@ -140,37 +157,6 @@
 			this.buttonUpdate.Name = "buttonUpdate";
 			this.buttonUpdate.ShowImage = true;
 			this.buttonUpdate.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button6_Click);
-			// 
-			// buttonSetting
-			// 
-			this.buttonSetting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			resources.ApplyResources(this.buttonSetting, "buttonSetting");
-			this.buttonSetting.Name = "buttonSetting";
-			this.buttonSetting.ShowImage = true;
-			this.buttonSetting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button3_Click);
-			// 
-			// group4
-			// 
-			this.group4.Items.Add(this.btnAddMyFormsTask);
-			this.group4.Items.Add(this.btnTaskTable);
-			resources.ApplyResources(this.group4, "group4");
-			this.group4.Name = "group4";
-			// 
-			// btnAddMyFormsTask
-			// 
-			this.btnAddMyFormsTask.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			resources.ApplyResources(this.btnAddMyFormsTask, "btnAddMyFormsTask");
-			this.btnAddMyFormsTask.Name = "btnAddMyFormsTask";
-			this.btnAddMyFormsTask.ShowImage = true;
-			this.btnAddMyFormsTask.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnAddMyFormsTask_Click);
-			// 
-			// btnTaskTable
-			// 
-			this.btnTaskTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			resources.ApplyResources(this.btnTaskTable, "btnTaskTable");
-			this.btnTaskTable.Name = "btnTaskTable";
-			this.btnTaskTable.ShowImage = true;
-			this.btnTaskTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnTaskTable_Click);
 			// 
 			// MyRibbon
 			// 
@@ -184,10 +170,6 @@
 			this.group2.PerformLayout();
 			this.group1.ResumeLayout(false);
 			this.group1.PerformLayout();
-			this.group3.ResumeLayout(false);
-			this.group3.PerformLayout();
-			this.group4.ResumeLayout(false);
-			this.group4.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.progressBarArray1)).EndInit();
 			this.ResumeLayout(false);
 
@@ -199,17 +181,16 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAddTask;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group2;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonSetting;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCalendar;
-		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
 		internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton button4;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton button5;
 		private Microsoft.Office.Tools.Ribbon.RibbonButton buttonUpdate;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonUser;
-		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAddMyFormsTask;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnTaskTable;
 		private Microsoft.VisualBasic.Compatibility.VB6.ProgressBarArray progressBarArray1;
+		internal Microsoft.Office.Tools.Ribbon.RibbonMenu menuPROJECT;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCurretProject;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonChangeOrCreateProject;
+		internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator1;
 	}
 
 	partial class ThisRibbonCollection

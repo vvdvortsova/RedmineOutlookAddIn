@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
 
 namespace RedmineOutlookAddIn
@@ -30,7 +31,12 @@ namespace RedmineOutlookAddIn
 		private void btnEditor_Click(object sender, EventArgs e)
 		{
 			WikiEditor wikiEditor = new WikiEditor();
+			wikiEditor.rtbEditor.Document.Blocks.Add(new Paragraph(new Run(richTextBoxAddForms.Text)));
+			
 			wikiEditor.Show();
+			richTextBoxAddForms.Text = new TextRange(wikiEditor.rtbEditor.Document.ContentStart, wikiEditor.rtbEditor.Document.ContentEnd).Text;
+
+
 		}
 
 		private void btnAddTask_Click(object sender, EventArgs e)

@@ -12,5 +12,8 @@
       <DesignTimeValue Profile="(Default)" />
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="CurrentFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Redmine</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
