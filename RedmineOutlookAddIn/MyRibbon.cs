@@ -69,11 +69,11 @@ namespace RedmineOutlookAddIn
 		internal Dictionary<string, string> GetTasksFromCurrentFolder()
 		{
 			Dictionary<string, string> OutlookTasks = new Dictionary<string, string>();
-			Outlook.NameSpace my_namespce = null;
+			
 			Outlook.Application outlookApp = new Outlook.Application();
 			Outlook.Items tasks = null;
-			my_namespce = outlookApp.GetNamespace("MAPI");
-			tasks = my_namespce.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderTasks).Items;
+			
+			tasks = CustomFolder.Items;
 			foreach (Outlook.TaskItem task in tasks)
 			{
 				if (OutlookTasks.Keys.Contains<string>(task.Subject))
@@ -126,7 +126,7 @@ namespace RedmineOutlookAddIn
 
 
 				newTaskItem.Display("True");
-				
+
 
 				if (newTaskItem.Subject != null)
 				{
@@ -141,13 +141,13 @@ namespace RedmineOutlookAddIn
 					MessageBox.Show($"Отсутствует описание! {Environment.NewLine} Задача не была добавлена");
 				}
 
-				
+
 
 
 			}
 			else
 			{
-				CustomFolder = CreateCustomFolder();
+				CustomFolder = CreateCustomFolder(RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder);
 				newTaskItem =
 				(Outlook.TaskItem)CustomFolder.Items.Add(Outlook.OlItemType.olTaskItem);
 
@@ -186,7 +186,7 @@ namespace RedmineOutlookAddIn
 				if (proj.Name == RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder)
 				{
 					id = proj.Id;
-					
+
 				}
 			}
 
@@ -244,7 +244,7 @@ namespace RedmineOutlookAddIn
 		/// Метод , создающий папку - если она отсутствует
 		/// </summary>
 		/// <returns>папку Outlook</returns>
-		public Outlook.MAPIFolder CreateCustomFolder()
+		public Outlook.MAPIFolder CreateCustomFolder(string nameFolder)
 		{
 			Outlook.MAPIFolder CustomFolder = null;
 
@@ -258,11 +258,11 @@ namespace RedmineOutlookAddIn
 
 			foreach (Outlook.MAPIFolder subFolder in taskFolder.Folders)
 			{
-				if (subFolder.Name == RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder)
+				if (subFolder.Name == nameFolder)
 
 				{
 					CustomFolder = subFolder;
-
+					return CustomFolder;
 				}
 			}
 
@@ -272,7 +272,7 @@ namespace RedmineOutlookAddIn
 
 			if (CustomFolder == null)
 			{
-				CustomFolder = taskFolder.Folders.Add(RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder, OlDefaultFolders.olFolderTasks);
+				CustomFolder = taskFolder.Folders.Add(nameFolder, OlDefaultFolders.olFolderTasks);
 			}
 			return CustomFolder;
 
@@ -328,12 +328,17 @@ namespace RedmineOutlookAddIn
 			//прогресс бар процесса обновления задач
 			ProgressBarShow progress = new ProgressBarShow();
 
-			Outlook.NameSpace namespce = null;
+
 			Outlook.Items tasks = null;
 			Outlook.Application oApp = new Outlook.Application();
-			namespce = oApp.GetNamespace("MAPI");
+
 			//выбор папки
-			tasks = namespce.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderTasks).Items;
+			if (CustomFolder == null)
+			{
+				CustomFolder = CreateCustomFolder(RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder);
+
+			}
+			tasks = CustomFolder.Items;
 
 			bool isExist;
 
@@ -345,41 +350,55 @@ namespace RedmineOutlookAddIn
 			foreach (Issue issue in manager.GetObjectList<Issue>(new NameValueCollection()))
 			{
 				isExist = false;
+
 				try
 				{
-					if (tasks.Count == 0)
+
+					//заменили или создали папку текущего проекта
+					if (CustomFolder.Name != issue.Project.Name)
 					{
-						CreateNewTaskOutlook(issue);
+						CustomFolder = CreateCustomFolder(issue.Project.Name);
+						tasks = CustomFolder.Items;
 					}
-					else
+
+					//проходим по папке аутлука
+
+					foreach (Outlook.TaskItem task in tasks)
 					{
-						foreach (Outlook.TaskItem task in tasks)
+
+						if (task.Subject == issue.Subject)
 						{
-
-							if (task.Subject == issue.Subject)
+							isExist = true;
+							if ((DateTime)issue.UpdatedOn > task.LastModificationTime)
 							{
-								isExist = true;
-								if ((DateTime)issue.UpdatedOn > task.LastModificationTime)
-								{
-									UpdateOneTaskOutlook(task, issue);
 
+								UpdateOneTaskOutlook(task, issue);
 
-								}
-								else { UpdateOneTaskRedmine(task, issue); }
-
+								break;
 							}
 							else
 							{
-								//если такой задачи нет 
-								continue;
+								UpdateOneTaskRedmine(task, issue);
+								break;
 							}
 
 						}
-						if (!isExist)
+						else
 						{
-							CreateNewTaskOutlook(issue);
+							//если такой задачи нет 
+							continue;
 						}
+
 					}
+					if (!isExist)
+					{
+						if (CustomFolder.Name != issue.Project.Name)
+						{
+							CustomFolder = CreateCustomFolder(issue.Project.Name);
+						}
+						CreateNewTaskOutlook(issue);
+					}
+
 
 					if (progress.progressBar1.Value < progress.progressBar1.Maximum)
 					{
@@ -401,7 +420,7 @@ namespace RedmineOutlookAddIn
 			}
 			Thread.Sleep(150);
 			progress.Close();
-			MessageBox.Show("Задачи импортированы");
+			MessageBox.Show("Задачи импортированы или обновлены");
 
 
 
@@ -417,7 +436,7 @@ namespace RedmineOutlookAddIn
 			Outlook.TaskItem task = null;
 			Dictionary<string, string> OutlookTasks = GetTasksFromCurrentFolder();
 			//To Do чтобы сохраняла в текущий фолдер !!!!!
-			task = (Outlook.TaskItem)Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olTaskItem);
+			task = (Outlook.TaskItem)CustomFolder.Items.Add(Outlook.OlItemType.olTaskItem);
 			task.Subject = issue.Subject;
 			Issue parentRedmine = null;
 			bool flagEistParentInOutlook = false;
@@ -451,7 +470,7 @@ namespace RedmineOutlookAddIn
 			}
 			else
 			{
-				MessageBox.Show("Нет родителя");
+				//MessageBox.Show("Нет родителя");
 			}
 			task.StartDate = (DateTime)issue.StartDate;
 			if (issue.DueDate != null)
