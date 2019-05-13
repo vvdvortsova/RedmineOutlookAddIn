@@ -15,5 +15,8 @@
     <Setting Name="CurrentFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">Redmine</Value>
     </Setting>
+    <Setting Name="CurrentCalendar" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RedmineCalendar-</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

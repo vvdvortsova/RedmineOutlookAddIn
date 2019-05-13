@@ -69,10 +69,10 @@ namespace RedmineOutlookAddIn
 		internal Dictionary<string, string> GetTasksFromCurrentFolder()
 		{
 			Dictionary<string, string> OutlookTasks = new Dictionary<string, string>();
-			
+
 			Outlook.Application outlookApp = new Outlook.Application();
 			Outlook.Items tasks = null;
-			
+
 			tasks = CustomFolder.Items;
 			foreach (Outlook.TaskItem task in tasks)
 			{
@@ -122,7 +122,8 @@ namespace RedmineOutlookAddIn
 				newTaskItem.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
 				newTaskItem.UserProperties.Add("Project", OlUserPropertyType.olText, true, true);
 				newTaskItem.UserProperties["Project"].Value = CustomFolder.Name;
-
+				newTaskItem.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+				newTaskItem.UserProperties["Parent"].Value = outlookTaskParent;
 
 
 				newTaskItem.Display("True");
@@ -168,7 +169,7 @@ namespace RedmineOutlookAddIn
 				}
 
 			}
-
+			Marshal.ReleaseComObject(newTaskItem);
 
 
 		}
@@ -373,12 +374,12 @@ namespace RedmineOutlookAddIn
 							{
 
 								UpdateOneTaskOutlook(task, issue);
-								
+
 								break;
 							}
 							else
 							{
-								
+
 								UpdateOneTaskRedmine(task, issue);
 								break;
 							}
@@ -423,11 +424,12 @@ namespace RedmineOutlookAddIn
 			progress.Close();
 			MessageBox.Show("Задачи импортированы или обновлены");
 
-
-
+			Marshal.ReleaseComObject(tasks);
+			Marshal.ReleaseComObject(oApp);
 
 
 		}
+
 		/// <summary>
 		/// Метод - создает задачу в Outlook при обновлении
 		/// </summary>
@@ -462,6 +464,8 @@ namespace RedmineOutlookAddIn
 				{
 					Outlook.TaskItem parentItemOutlook = CreateNewTaskOutlook(parentRedmine);
 					outlookTaskParent = parentItemOutlook.EntryID;
+					task.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+					task.UserProperties["Parent"].Value = outlookTaskParent;
 					task.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
 					task.UserProperties["Parent"].Value = outlookTaskParent;
 					MessageBox.Show($"В задачу ***{task.Subject}*** создан и добавлен ***{parentItemOutlook.Subject}***");
@@ -500,6 +504,8 @@ namespace RedmineOutlookAddIn
 					outlookTaskParent = task.EntryID;
 					childernItemOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
 					childernItemOutlook.UserProperties["Parent"].Value = outlookTaskParent;
+					childernItemOutlook.UserProperties.Add("InCalendar", OlUserPropertyType.olText, false, true);
+					childernItemOutlook.UserProperties["InCalendar"].Value = "false";
 					MessageBox.Show($"В задачу ***{childernItemOutlook.Subject}*** создан и добавлен ***{task.Subject}***");
 				}
 
@@ -524,7 +530,7 @@ namespace RedmineOutlookAddIn
 		/// <param name="issue">задача Redmine</param>
 		private void UpdateOneTaskRedmine(TaskItem task, Issue issue)
 		{
-			
+
 			issue.DoneRatio = task.PercentComplete;
 			issue.Description = task.Body;
 			issue.StartDate = task.StartDate;
@@ -571,6 +577,8 @@ namespace RedmineOutlookAddIn
 					outlookTaskParent = parentItemOutlook.EntryID;
 					task.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
 					task.UserProperties["Parent"].Value = outlookTaskParent;
+					task.UserProperties.Add("InCalendar", OlUserPropertyType.olText, false, true);
+					task.UserProperties["InCalendar"].Value = "false";
 					MessageBox.Show($"В задачу ***{task.Subject}*** создан и добавлен ***{parentItemOutlook.Subject}***");
 				}
 
@@ -578,37 +586,39 @@ namespace RedmineOutlookAddIn
 			}
 			if (issue.Children != null)
 			{
-				
+
 				Issue childrenRedmine = null;
 				flagEistParentInOutlook = false;
-			
-					childrenRedmine = manager.GetObject<Issue>(issue.Children.ToString(), new NameValueCollection());
-					foreach (var taskID in OutlookTasks)
+
+				childrenRedmine = manager.GetObject<Issue>(issue.Children.ToString(), new NameValueCollection());
+				foreach (var taskID in OutlookTasks)
+				{
+					//если есть такая задача в текущей папке, то просто в свойстве добавляем ее ид
+					if (taskID.Key == childrenRedmine.Subject)
 					{
-						//если есть такая задача в текущей папке, то просто в свойстве добавляем ее ид
-						if (taskID.Key == childrenRedmine.Subject)
-						{
-							Outlook.NameSpace ns = Globals.ThisAddIn.Application.Session;
+						Outlook.NameSpace ns = Globals.ThisAddIn.Application.Session;
 
 
-							Outlook.TaskItem chiledrenOutlook = (Outlook.TaskItem)ns.GetItemFromID(taskID.Value);
-							outlookTaskParent = task.EntryID;
-							chiledrenOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
-							chiledrenOutlook.UserProperties["Parent"].Value = outlookTaskParent;
-							MessageBox.Show($"В задачу ***{chiledrenOutlook.Subject}*** добавлен родитель ***{task.Subject}***");
-							flagEistParentInOutlook = true;
-						}
-
-					}
-					//если нет то создаем ее в текущей папке и добавляем ее ид в свойства
-					if (!flagEistParentInOutlook)
-					{
-						Outlook.TaskItem childernItemOutlook = CreateNewTaskOutlook(childrenRedmine);
+						Outlook.TaskItem chiledrenOutlook = (Outlook.TaskItem)ns.GetItemFromID(taskID.Value);
 						outlookTaskParent = task.EntryID;
-						childernItemOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
-						childernItemOutlook.UserProperties["Parent"].Value = outlookTaskParent;
-						MessageBox.Show($"В задачу ***{childernItemOutlook.Subject}*** создан и добавлен ***{task.Subject}***");
+						chiledrenOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+						chiledrenOutlook.UserProperties["Parent"].Value = outlookTaskParent;
+						MessageBox.Show($"В задачу ***{chiledrenOutlook.Subject}*** добавлен родитель ***{task.Subject}***");
+						flagEistParentInOutlook = true;
 					}
+
+				}
+				//если нет то создаем ее в текущей папке и добавляем ее ид в свойства
+				if (!flagEistParentInOutlook)
+				{
+					Outlook.TaskItem childernItemOutlook = CreateNewTaskOutlook(childrenRedmine);
+					outlookTaskParent = task.EntryID;
+					childernItemOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
+					childernItemOutlook.UserProperties.Add("InCalendar", OlUserPropertyType.olText, false, true);
+					childernItemOutlook.UserProperties["InCalendar"].Value = "false";
+					childernItemOutlook.UserProperties["Parent"].Value = outlookTaskParent;
+					MessageBox.Show($"В задачу ***{childernItemOutlook.Subject}*** создан и добавлен ***{task.Subject}***");
+				}
 
 			}
 			if (issue.DueDate != null)
@@ -680,7 +690,7 @@ namespace RedmineOutlookAddIn
 
 		private void buttonCurretProject_Click(object sender, RibbonControlEventArgs e)
 		{
-			MessageBox.Show(RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder);
+			MessageBox.Show(Properties.Settings.Default.CurrentFolder);
 
 		}
 
@@ -699,6 +709,156 @@ namespace RedmineOutlookAddIn
 		{
 			AboutAddInProject aboutAdd = new AboutAddInProject();
 			aboutAdd.Show();
+		}
+		/// <summary>
+		/// Метод ,который добавляет трекеры задач 
+		/// в календарь(если они не были добавлены).
+		/// Отображает календарь.(когда все задачи добавлены)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonCalendR_Click(object sender, RibbonControlEventArgs e)
+		{
+
+			try
+			{
+				Outlook.MAPIFolder fldContacts = (Outlook.MAPIFolder)Globals.ThisAddIn.Application.Session.
+				GetDefaultFolder(Outlook.OlDefaultFolders.olFolderTasks);
+				//Проверяем есть ли пользовательская папка
+				//(которая сейчас текущая[текущий проект Redmine - который можно задовать в ленте] CurrentFolder ) в аутлуке
+				Outlook.MAPIFolder my_currentFolder = CreateCustomCalendar();
+				foreach (Outlook.MAPIFolder subFolder in fldContacts.Folders)
+				{
+					CustomFolder = subFolder;
+					foreach (var task in CustomFolder.Items)
+					{
+						Outlook.TaskItem taskItem = (Outlook.TaskItem)task;
+
+
+						if (taskItem.DueDate == null)
+						{
+							taskItem.DueDate = DateTime.Today;
+						}
+						if (CheckTaskInOutlookCalendary(my_currentFolder, taskItem.Subject))
+						{
+							continue;
+						}
+
+
+					}
+
+				}
+
+				MessageBox.Show("Календарь импортирован");
+			}
+			catch (System.Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
+		}
+		/// <summary>
+		/// Метод,проверяющий есть ли задача в календаре.
+		/// </summary>
+		/// <param name="my_personalCalendary"></param>
+		/// <param name="taskSubject"></param>
+		/// <returns></returns>
+		private bool CheckTaskInOutlookCalendary(Outlook.MAPIFolder my_personalCalendary, string taskSubject)
+		{
+			bool isExist = false;
+			foreach (var item in my_personalCalendary.Items)
+			{
+				if (item == taskSubject)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		/// <summary>
+		/// Метод ,создающий новый ивент в календаре.
+		/// </summary>
+		/// <param name="my_personalCalendary">календарь</param>
+		/// <param name="taskSubject">тема задачи</param>
+		/// <param name="taskBody">описание задачи</param>
+		/// <param name="start">начало задачи</param>
+		/// <param name="finish">конец задачи</param>
+		private void CreateOutlookTaskAppointment(Outlook.MAPIFolder my_personalCalendary, string taskSubject, string taskBody, DateTime start, DateTime finish)
+		{
+
+			try
+			{
+				Outlook.AppointmentItem newEvent =
+					my_personalCalendary.Items.Add
+					(Outlook.OlItemType.olAppointmentItem)
+					as Outlook.AppointmentItem;
+				newEvent.Start = start;
+				newEvent.End = finish;
+				newEvent.Subject = taskSubject;
+				newEvent.Body = taskBody;
+				newEvent.Save();
+				//MessageBox.Show($"Задача***{newEvent.Subject}*** добавлена в календарь! **{my_personalCalendary.Name}**");
+
+			}
+			catch (System.Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+				//ex.HandleException();
+
+			}
+
+		}
+		/// <summary>
+		/// Метод ,создающий объект текущего календаря.
+		/// </summary>
+		/// <returns>обьект календаря</returns>
+		private Outlook.MAPIFolder CreateCustomCalendar()
+		{
+			string newCalendarName = RedmineOutlookAddIn.Properties.Settings.Default.CurrentCalendar + $"{RedmineOutlookAddIn.Properties.Settings.Default.host}";
+			Outlook.MAPIFolder primaryCalendar = (Outlook.MAPIFolder)Globals.ThisAddIn.Application.ActiveExplorer().Session.GetDefaultFolder
+				 (Outlook.OlDefaultFolders.olFolderCalendar);
+			bool needFolder = true;
+			//ищем данный календарь 
+			Outlook.MAPIFolder my_personalCalendary = null;
+			foreach (Outlook.MAPIFolder personalCalendar
+				in primaryCalendar.Folders)
+			{
+				if (personalCalendar.Name == newCalendarName)
+				{
+					my_personalCalendary = personalCalendar;
+					needFolder = false;
+					break;
+				}
+			}
+			//если такой папки нет,то создаем
+			if (needFolder)
+			{
+				my_personalCalendary = primaryCalendar
+			.Folders.Add(newCalendarName,
+				Outlook.OlDefaultFolders.olFolderCalendar);
+			}
+			return my_personalCalendary;
+
+
+		}
+		/// <summary>
+		/// Метод ,окрывающий календарь текущего пользователя Redmine.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonOpenCalendary_Click(object sender, RibbonControlEventArgs e)
+		{
+			try
+			{
+				Outlook.MAPIFolder my_currentFolder = CreateCustomCalendar();
+				Globals.ThisAddIn.Application.ActiveExplorer().CurrentFolder = my_currentFolder;
+				Globals.ThisAddIn.Application.ActiveExplorer().CurrentFolder.Display();
+			}
+			catch (System.Exception ex)
+			{
+
+				MessageBox.Show("Невозможно открыть календарь" + Environment.NewLine + ex.Message);
+			}
 		}
 	}
 }
