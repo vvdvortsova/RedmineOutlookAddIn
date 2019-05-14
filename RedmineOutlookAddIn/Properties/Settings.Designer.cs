@@ -67,17 +67,5 @@ namespace RedmineOutlookAddIn.Properties {
                 this["CurrentFolder"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("RedmineCalendar-")]
-        public string CurrentCalendar {
-            get {
-                return ((string)(this["CurrentCalendar"]));
-            }
-            set {
-                this["CurrentCalendar"] = value;
-            }
-        }
     }
 }

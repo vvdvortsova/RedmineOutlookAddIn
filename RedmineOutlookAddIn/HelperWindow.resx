@@ -124,25 +124,6 @@
 удалите папку с проектом и нажмите UpdateTasks (все вернется к прежнему состоянию)
 </value>
   </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Ответ: Вы должны авторизоваться в настройках.
-Потом при успешной авторизации нажать кнопку
-"Импорт задач",чтобы импортировать ваши задачи,
-Потом нажать кнопку "Импорт задач в календарь".
-вроде должно работать,если не работает,то ищите ответ
-в впоросах ниже.
-</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>Ответ: Все дело в апи Redmine ,там баг
-(разрабы уже знают,но пока ничего не ответили).
-Из-за этого бага проекты создать можно,
-но задачи в такие проекты добавлять нельзя,
-потому что через апи не добавляются трекеры(Bug,Feature.Support).
-Их можно добавить только вручную в самом Redmine(настройки).
-Если вы создали проект таким образом,то просто можете нажать
-импорт задач и этот проект появиться в списке проектов.</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

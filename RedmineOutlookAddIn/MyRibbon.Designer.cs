@@ -39,9 +39,7 @@
 			this.tab2 = this.Factory.CreateRibbonTab();
 			this.group2 = this.Factory.CreateRibbonGroup();
 			this.group1 = this.Factory.CreateRibbonGroup();
-			this.separator3 = this.Factory.CreateRibbonSeparator();
 			this.separator1 = this.Factory.CreateRibbonSeparator();
-			this.separator2 = this.Factory.CreateRibbonSeparator();
 			this.progressBarArray1 = new Microsoft.VisualBasic.Compatibility.VB6.ProgressBarArray(this.components);
 			this.menu1 = this.Factory.CreateRibbonMenu();
 			this.button4 = this.Factory.CreateRibbonButton();
@@ -52,8 +50,6 @@
 			this.buttonChangeOrCreateProject = this.Factory.CreateRibbonButton();
 			this.buttonSetting = this.Factory.CreateRibbonButton();
 			this.buttonAddTask = this.Factory.CreateRibbonButton();
-			this.buttonOpenCalendary = this.Factory.CreateRibbonButton();
-			this.buttonCalendR = this.Factory.CreateRibbonButton();
 			this.buttonUpdate = this.Factory.CreateRibbonButton();
 			this.tab2.SuspendLayout();
 			this.group2.SuspendLayout();
@@ -79,26 +75,14 @@
 			// group1
 			// 
 			this.group1.Items.Add(this.buttonAddTask);
-			this.group1.Items.Add(this.separator3);
-			this.group1.Items.Add(this.buttonOpenCalendary);
 			this.group1.Items.Add(this.separator1);
-			this.group1.Items.Add(this.buttonCalendR);
-			this.group1.Items.Add(this.separator2);
 			this.group1.Items.Add(this.buttonUpdate);
 			resources.ApplyResources(this.group1, "group1");
 			this.group1.Name = "group1";
 			// 
-			// separator3
-			// 
-			this.separator3.Name = "separator3";
-			// 
 			// separator1
 			// 
 			this.separator1.Name = "separator1";
-			// 
-			// separator2
-			// 
-			this.separator2.Name = "separator2";
 			// 
 			// menu1
 			// 
@@ -168,22 +152,6 @@
 			this.buttonAddTask.ShowImage = true;
 			this.buttonAddTask.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
 			// 
-			// buttonOpenCalendary
-			// 
-			this.buttonOpenCalendary.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			resources.ApplyResources(this.buttonOpenCalendary, "buttonOpenCalendary");
-			this.buttonOpenCalendary.Name = "buttonOpenCalendary";
-			this.buttonOpenCalendary.ShowImage = true;
-			this.buttonOpenCalendary.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonOpenCalendary_Click);
-			// 
-			// buttonCalendR
-			// 
-			this.buttonCalendR.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			resources.ApplyResources(this.buttonCalendR, "buttonCalendR");
-			this.buttonCalendR.Name = "buttonCalendR";
-			this.buttonCalendR.ShowImage = true;
-			this.buttonCalendR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCalendR_Click);
-			// 
 			// buttonUpdate
 			// 
 			this.buttonUpdate.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -225,10 +193,6 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCurretProject;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonChangeOrCreateProject;
 		internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator1;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCalendR;
-		internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator2;
-		internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator3;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonOpenCalendary;
 	}
 
 	partial class ThisRibbonCollection
