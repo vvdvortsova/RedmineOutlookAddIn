@@ -45,40 +45,7 @@ namespace RedmineOutlookAddIn
 			}
 			comboBoxProjects.Items.Add("Redmine");
 		}
-		/// <summary>
-		/// Создание нового проекта
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void buttonCreateProject_Click(object sender, EventArgs e)
-		{
-			Globals.Ribbons.MyRibbon.manager = new RedmineManager(RedmineOutlookAddIn.Properties.Settings.Default.host, RedmineOutlookAddIn.Properties.Settings.Default.apyKey);
-			if (textBoxNameProject.Text != String.Empty)
-			{
-				
-				Project project = new Project();
-				project.Name = textBoxNameProject.Text;
-				List<ProjectTracker> issueCategories = new List<ProjectTracker>();
-				issueCategories.Add(new ProjectTracker() { Id=2 });
-				issueCategories.Add(new ProjectTracker() { Name = "Feature" });
-				issueCategories.Add(new ProjectTracker() { Name = "Support" });
-
-				project.Trackers = issueCategories;
-				project.Identifier = RandomIdetifier();
-				comboBoxProjects.Items.Add(project.Name);
-				if (textBoxDescrptProject.Text != null)
-				{
-					project.Description = textBoxDescrptProject.Text;
-				}
-				
-				Globals.Ribbons.MyRibbon.manager.CreateObject(project);
-				MessageBox.Show("Проект создан"+Environment.NewLine+$"{project.Name}");
-				
-
-			}
-
-
-		}
+		
 		/// <summary>
 		/// Изменить проект
 		/// </summary>

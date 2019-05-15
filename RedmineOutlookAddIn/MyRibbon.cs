@@ -34,8 +34,8 @@ namespace RedmineOutlookAddIn
 {
 	public partial class MyRibbon
 	{
-		internal static string host = RedmineOutlookAddIn.Properties.Settings.Default.host;// "http://79.137.216.214/redmine/";
-		internal static string apiKey = RedmineOutlookAddIn.Properties.Settings.Default.host;//"4444025d7e83c49e92466b5399ba7ee06c464637";
+		internal static string host = RedmineOutlookAddIn.Properties.Settings.Default.host;//"https://edu.pais.hse.ru/redmine/";//"http://79.137.216.214/redmine/";
+		internal static string apiKey = RedmineOutlookAddIn.Properties.Settings.Default.apyKey;// "150dfb2182cab1f02cac7aff2da8224207632e67";//"4444025d7e83c49e92466b5399ba7ee06c464637";
 		internal RedmineManager manager;
 		internal static Outlook.MAPIFolder CustomFolder = null;
 		internal string current_folder = RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder;//папка сохранения задач
@@ -45,7 +45,7 @@ namespace RedmineOutlookAddIn
 		{
 			try
 			{
-				manager = new RedmineManager(host, apiKey);
+				manager = new RedmineManager(Properties.Settings.Default.host, Properties.Settings.Default.apyKey);
 
 			}
 			catch (System.Exception ex)
@@ -129,17 +129,20 @@ namespace RedmineOutlookAddIn
 				newTaskItem.Display("True");
 
 
-				if (newTaskItem.Subject != null)
+				if (newTaskItem.Subject != null||newTaskItem.DueDate!=null)
 				{
+					Outlook.MAPIFolder calendar = CreateCustomCalendar();
+					CreateOutlookTaskAppointment(calendar, newTaskItem.Subject, newTaskItem.Body, newTaskItem.StartDate, newTaskItem.DueDate);
 					//Создаем  задачу в Redmine
 					CreateNewTaskRedmine(newTaskItem);
 					newTaskItem.Save();
 					//Добавляю в папку с текущем проектом
 					CustomFolder.Items.Add(newTaskItem);
+					
 				}
 				else
 				{
-					MessageBox.Show($"Отсутствует описание! {Environment.NewLine} Задача не была добавлена");
+					MessageBox.Show($"Отсутствует описание или дата! {Environment.NewLine} Задача не была добавлена");
 				}
 
 
@@ -290,18 +293,19 @@ namespace RedmineOutlookAddIn
 
 			Connection connection = new Connection();
 			connection.Show();
-			if (connection.checkBox2.Checked)
-			{
-				RedmineOutlookAddIn.Properties.Settings.Default.host = connection.textBoxUrl.Text;
-				RedmineOutlookAddIn.Properties.Settings.Default.apyKey = connection.textBoxApiKey.Text;
-				//При авторизации по умолчанию задачи будут создаваться в папке Redmine
-				RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder = "Redmine";
-				RedmineOutlookAddIn.Properties.Settings.Default.Save();
-
-				this.RibbonUI.Invalidate();
-			}
+			
 			try
 			{
+				if (connection.checkBox2.Checked)
+				{
+					RedmineOutlookAddIn.Properties.Settings.Default.host = connection.textBoxUrl.Text;
+					RedmineOutlookAddIn.Properties.Settings.Default.apyKey = connection.textBoxApiKey.Text;
+					//При авторизации по умолчанию задачи будут создаваться в папке Redmine
+					RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder = "Redmine";
+					RedmineOutlookAddIn.Properties.Settings.Default.Save();
+					manager = new RedmineManager(RedmineOutlookAddIn.Properties.Settings.Default.host, RedmineOutlookAddIn.Properties.Settings.Default.apyKey);
+					this.RibbonUI.Invalidate();
+				}
 				manager = new RedmineManager(RedmineOutlookAddIn.Properties.Settings.Default.host, RedmineOutlookAddIn.Properties.Settings.Default.apyKey);
 
 			}
@@ -739,11 +743,11 @@ namespace RedmineOutlookAddIn
 						{
 							taskItem.DueDate = DateTime.Today;
 						}
-						if (CheckTaskInOutlookCalendary(my_currentFolder, taskItem.Subject))
+						if (!CheckTaskInOutlookCalendary(my_currentFolder, taskItem.Subject))
 						{
-							continue;
+							CreateOutlookTaskAppointment(my_currentFolder, taskItem.Subject, taskItem.Body, taskItem.StartDate, taskItem.DueDate);
 						}
-
+					
 
 					}
 
@@ -768,7 +772,7 @@ namespace RedmineOutlookAddIn
 			bool isExist = false;
 			foreach (var item in my_personalCalendary.Items)
 			{
-				if (item == taskSubject)
+				if (((Outlook.AppointmentItem)item).Subject == taskSubject)
 				{
 					return true;
 				}
@@ -797,7 +801,7 @@ namespace RedmineOutlookAddIn
 				newEvent.Subject = taskSubject;
 				newEvent.Body = taskBody;
 				newEvent.Save();
-				//MessageBox.Show($"Задача***{newEvent.Subject}*** добавлена в календарь! **{my_personalCalendary.Name}**");
+				MessageBox.Show($"Задача***{newEvent.Subject}*** добавлена в календарь! **{my_personalCalendary.Name}**");
 
 			}
 			catch (System.Exception ex)
