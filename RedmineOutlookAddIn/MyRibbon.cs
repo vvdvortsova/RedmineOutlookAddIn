@@ -643,40 +643,12 @@ namespace RedmineOutlookAddIn
 
 		}
 
-		private void button7_Click(object sender, RibbonControlEventArgs e)
-		{
-			Outlook.NameSpace namespce = null;
-			Outlook.Items tasks = null;
-			Outlook.Application oApp = new Outlook.Application();
-			namespce = oApp.GetNamespace("MAPI");
-			tasks = namespce.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderTasks).Items;
-			string temp = string.Empty;
-			string tmpRedm = string.Empty;
-			bool isExist = false;
-			string AddedTastFromOutlook = string.Empty;
-			foreach (Outlook.TaskItem task in tasks)
-			{
-				tmpRedm += task.Subject + Environment.NewLine;
-
-				//temp += $"{task.Body}+{Environment.NewLine}";
-				//bool isCompleeted = task.Complete;//Check if your task is compleeted in your application you could use EntryID property to identify a task 
-				//if (isCompleeted == true && task.Status != OlTaskStatus.olTaskComplete)
-				//{
-				//	task.MarkComplete();
-				//	task.Save();
-				//}
-
-
-			}
-			foreach (Issue issue in manager.GetObjectList<Issue>(new NameValueCollection()))
-			{
-				temp += issue.Subject + Environment.NewLine;
-			}
-			MessageBox.Show("TASK outlook" + Environment.NewLine + tmpRedm);
-			MessageBox.Show("TASK Redmine" + Environment.NewLine + temp);
-
-		}
-
+		
+		/// <summary>
+		/// Метод,отображающий текущего пользователя Redmine.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void buttonUser_Click(object sender, RibbonControlEventArgs e)
 		{
 			this.RibbonUI.Invalidate();
@@ -691,30 +663,43 @@ namespace RedmineOutlookAddIn
 			}
 
 		}
-
+		/// <summary>
+		/// Метод ,выводящий на экран форму изменения проекта.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void buttonChangeOrCreateProject_Click(object sender, RibbonControlEventArgs e)
 		{
 			AddOrChangeProjectWindow window = new AddOrChangeProjectWindow();
 			window.Show();
 		}
-
+		/// <summary>
+		/// Метод,выводящий на экран текущий проект.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void buttonCurretProject_Click(object sender, RibbonControlEventArgs e)
 		{
 			MessageBox.Show(Properties.Settings.Default.CurrentFolder);
 
 		}
 
-		private void buttonCalendar_Click(object sender, RibbonControlEventArgs e)
-		{
-
-		}
-
+		
+		/// <summary>
+		/// Метод ,выводящий на экран страницу помощи,где пользователь может ознакомится с основными вопросами.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void button5_Click(object sender, RibbonControlEventArgs e)
 		{
 			HelperWindow helperWindow = new HelperWindow();
 			helperWindow.Show();
 		}
-
+		/// <summary>
+		/// Метод,выводит страницу - о проекте.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void button4_Click(object sender, RibbonControlEventArgs e)
 		{
 			AboutAddInProject aboutAdd = new AboutAddInProject();
@@ -889,7 +874,11 @@ namespace RedmineOutlookAddIn
 		{
 			MessageBox.Show(Properties.Settings.Default.CurrentCalendar + Properties.Settings.Default.host);
 		}
-
+		/// <summary>
+		/// Метод,создающий новый календарь - пользователя Redmine.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void buttonCreateNewCalendarOrChange_Click(object sender, RibbonControlEventArgs e)
 		{
 			try
