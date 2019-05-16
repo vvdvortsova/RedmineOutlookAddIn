@@ -40,7 +40,7 @@
 			this.comboBoxProjects.FormattingEnabled = true;
 			this.comboBoxProjects.Location = new System.Drawing.Point(16, 39);
 			this.comboBoxProjects.Name = "comboBoxProjects";
-			this.comboBoxProjects.Size = new System.Drawing.Size(121, 24);
+			this.comboBoxProjects.Size = new System.Drawing.Size(171, 24);
 			this.comboBoxProjects.TabIndex = 0;
 			// 
 			// label1
@@ -58,7 +58,7 @@
 			this.buttonChangeProject.Font = new System.Drawing.Font("MS Reference Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.buttonChangeProject.Location = new System.Drawing.Point(16, 69);
 			this.buttonChangeProject.Name = "buttonChangeProject";
-			this.buttonChangeProject.Size = new System.Drawing.Size(87, 23);
+			this.buttonChangeProject.Size = new System.Drawing.Size(171, 23);
 			this.buttonChangeProject.TabIndex = 3;
 			this.buttonChangeProject.Text = "Изменить";
 			this.buttonChangeProject.UseVisualStyleBackColor = true;
@@ -68,7 +68,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(363, 109);
+			this.ClientSize = new System.Drawing.Size(204, 109);
 			this.Controls.Add(this.buttonChangeProject);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.comboBoxProjects);
