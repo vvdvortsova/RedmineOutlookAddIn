@@ -237,6 +237,12 @@
     <Compile Include="Connection.Designer.cs">
       <DependentUpon>Connection.cs</DependentUpon>
     </Compile>
+    <Compile Include="CreateNewCalendarWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateNewCalendarWindow.Designer.cs">
+      <DependentUpon>CreateNewCalendarWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="HelperWindow.cs">
       <SubType>Form</SubType>
@@ -285,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Connection.resx">
       <DependentUpon>Connection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateNewCalendarWindow.resx">
+      <DependentUpon>CreateNewCalendarWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HelperWindow.resx">
       <DependentUpon>HelperWindow.cs</DependentUpon>

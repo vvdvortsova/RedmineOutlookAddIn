@@ -129,7 +129,7 @@ namespace RedmineOutlookAddIn
 				newTaskItem.Display("True");
 
 
-				if (newTaskItem.Subject != null||newTaskItem.DueDate!=null)
+				if (newTaskItem.Subject != null || newTaskItem.DueDate != null)
 				{
 					Outlook.MAPIFolder calendar = CreateCustomCalendar();
 					CreateOutlookTaskAppointment(calendar, newTaskItem.Subject, newTaskItem.Body, newTaskItem.StartDate, newTaskItem.DueDate);
@@ -138,7 +138,7 @@ namespace RedmineOutlookAddIn
 					newTaskItem.Save();
 					//Добавляю в папку с текущем проектом
 					CustomFolder.Items.Add(newTaskItem);
-					
+
 				}
 				else
 				{
@@ -187,9 +187,15 @@ namespace RedmineOutlookAddIn
 			int id = 1;
 			foreach (Project proj in manager.GetObjectList<Project>(new NameValueCollection()))
 			{
+				if (RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder == "Redmine")
+				{
+					id = 1;
+					break;
+				}
 				if (proj.Name == RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder)
 				{
 					id = proj.Id;
+					break;
 
 				}
 			}
@@ -198,7 +204,7 @@ namespace RedmineOutlookAddIn
 			{
 				Subject = newTaskItem.Subject,
 				//по умолчанию добавляется в первый проект,он будет текущим(их может быть несколько и у каждого есть свой номер)
-				Project = new IdentifiableName { Id = 1 },
+				Project = new IdentifiableName { Id = id },
 				//Tracker = new IdentifiableName { Name = "Bug" },
 				//Status = new IdentifiableName { Name = "New" },
 				//Priority = new IdentifiableName { Name = "Normal" },
@@ -293,7 +299,7 @@ namespace RedmineOutlookAddIn
 
 			Connection connection = new Connection();
 			connection.Show();
-			
+
 			try
 			{
 				if (connection.checkBox2.Checked)
@@ -458,7 +464,7 @@ namespace RedmineOutlookAddIn
 						outlookTaskParent = taskID.Value;
 						task.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
 						task.UserProperties["Parent"].Value = outlookTaskParent;
-						MessageBox.Show($"В задачу ***{task.Subject}*** добавлен родитель ***{parentRedmine.Subject}***");
+						//MessageBox.Show($"В задачу ***{task.Subject}*** добавлен родитель ***{parentRedmine.Subject}***");
 						flagEistParentInOutlook = true;
 					}
 
@@ -472,14 +478,14 @@ namespace RedmineOutlookAddIn
 					task.UserProperties["Parent"].Value = outlookTaskParent;
 					task.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
 					task.UserProperties["Parent"].Value = outlookTaskParent;
-					MessageBox.Show($"В задачу ***{task.Subject}*** создан и добавлен ***{parentItemOutlook.Subject}***");
+					//MessageBox.Show($"В задачу ***{task.Subject}*** создан и добавлен ***{parentItemOutlook.Subject}***");
 				}
 
 
 			}
 			if (issue.Children != null)
 			{
-				MessageBox.Show("ребенок есть");
+				//MessageBox.Show("ребенок есть");
 				Issue childrenRedmine = null;
 				flagEistParentInOutlook = false;
 
@@ -496,7 +502,7 @@ namespace RedmineOutlookAddIn
 						outlookTaskParent = task.EntryID;
 						chiledrenOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
 						chiledrenOutlook.UserProperties["Parent"].Value = outlookTaskParent;
-						MessageBox.Show($"В задачу ***{chiledrenOutlook.Subject}*** добавлен родитель ***{task.Subject}***");
+						//MessageBox.Show($"В задачу ***{chiledrenOutlook.Subject}*** добавлен родитель ***{task.Subject}***");
 						flagEistParentInOutlook = true;
 					}
 
@@ -510,7 +516,7 @@ namespace RedmineOutlookAddIn
 					childernItemOutlook.UserProperties["Parent"].Value = outlookTaskParent;
 					childernItemOutlook.UserProperties.Add("InCalendar", OlUserPropertyType.olText, false, true);
 					childernItemOutlook.UserProperties["InCalendar"].Value = "false";
-					MessageBox.Show($"В задачу ***{childernItemOutlook.Subject}*** создан и добавлен ***{task.Subject}***");
+					//MessageBox.Show($"В задачу ***{childernItemOutlook.Subject}*** создан и добавлен ***{task.Subject}***");
 				}
 
 			}
@@ -569,7 +575,7 @@ namespace RedmineOutlookAddIn
 						outlookTaskParent = taskID.Value;
 						task.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
 						task.UserProperties["Parent"].Value = outlookTaskParent;
-						MessageBox.Show($"В задачу ***{task.Subject}*** добавлен родитель ***{parentRedmine.Subject}***");
+						//MessageBox.Show($"В задачу ***{task.Subject}*** добавлен родитель ***{parentRedmine.Subject}***");
 						flagEistParentInOutlook = true;
 					}
 
@@ -583,7 +589,7 @@ namespace RedmineOutlookAddIn
 					task.UserProperties["Parent"].Value = outlookTaskParent;
 					task.UserProperties.Add("InCalendar", OlUserPropertyType.olText, false, true);
 					task.UserProperties["InCalendar"].Value = "false";
-					MessageBox.Show($"В задачу ***{task.Subject}*** создан и добавлен ***{parentItemOutlook.Subject}***");
+					//MessageBox.Show($"В задачу ***{task.Subject}*** создан и добавлен ***{parentItemOutlook.Subject}***");
 				}
 
 
@@ -607,7 +613,7 @@ namespace RedmineOutlookAddIn
 						outlookTaskParent = task.EntryID;
 						chiledrenOutlook.UserProperties.Add("Parent", OlUserPropertyType.olText, false, true);
 						chiledrenOutlook.UserProperties["Parent"].Value = outlookTaskParent;
-						MessageBox.Show($"В задачу ***{chiledrenOutlook.Subject}*** добавлен родитель ***{task.Subject}***");
+						//MessageBox.Show($"В задачу ***{chiledrenOutlook.Subject}*** добавлен родитель ***{task.Subject}***");
 						flagEistParentInOutlook = true;
 					}
 
@@ -621,7 +627,7 @@ namespace RedmineOutlookAddIn
 					childernItemOutlook.UserProperties.Add("InCalendar", OlUserPropertyType.olText, false, true);
 					childernItemOutlook.UserProperties["InCalendar"].Value = "false";
 					childernItemOutlook.UserProperties["Parent"].Value = outlookTaskParent;
-					MessageBox.Show($"В задачу ***{childernItemOutlook.Subject}*** создан и добавлен ***{task.Subject}***");
+					//MessageBox.Show($"В задачу ***{childernItemOutlook.Subject}*** создан и добавлен ***{task.Subject}***");
 				}
 
 			}
@@ -731,6 +737,11 @@ namespace RedmineOutlookAddIn
 				//Проверяем есть ли пользовательская папка
 				//(которая сейчас текущая[текущий проект Redmine - который можно задовать в ленте] CurrentFolder ) в аутлуке
 				Outlook.MAPIFolder my_currentFolder = CreateCustomCalendar();
+				ProgressBarShow progress = new ProgressBarShow();
+				progress.progressBar1.Maximum = manager.GetObjectList<Issue>(new NameValueCollection()).Count;
+				int pr = 0;
+				progress.Show();
+
 				foreach (Outlook.MAPIFolder subFolder in fldContacts.Folders)
 				{
 					CustomFolder = subFolder;
@@ -747,7 +758,11 @@ namespace RedmineOutlookAddIn
 						{
 							CreateOutlookTaskAppointment(my_currentFolder, taskItem.Subject, taskItem.Body, taskItem.StartDate, taskItem.DueDate);
 						}
-					
+						if (progress.progressBar1.Value < progress.progressBar1.Maximum)
+						{
+							pr += 1;
+							progress.progressBar1.Value = pr;
+						}
 
 					}
 
@@ -757,7 +772,8 @@ namespace RedmineOutlookAddIn
 			}
 			catch (System.Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				//MessageBox.Show(ex.Message);
+				MessageBox.Show($"Задачи, у которых не было даты "+Environment.NewLine+"начала и окончания , импортированы не были!");
 			}
 
 		}
@@ -801,7 +817,7 @@ namespace RedmineOutlookAddIn
 				newEvent.Subject = taskSubject;
 				newEvent.Body = taskBody;
 				newEvent.Save();
-				MessageBox.Show($"Задача***{newEvent.Subject}*** добавлена в календарь! **{my_personalCalendary.Name}**");
+				//MessageBox.Show($"Задача***{newEvent.Subject}*** добавлена в календарь! **{my_personalCalendary.Name}**");
 
 			}
 			catch (System.Exception ex)
@@ -862,6 +878,29 @@ namespace RedmineOutlookAddIn
 			{
 
 				MessageBox.Show("Невозможно открыть календарь" + Environment.NewLine + ex.Message);
+			}
+		}
+		/// <summary>
+		/// Метод, показывающий текущую папку с календарем.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonShowCurrentCalendar_Click(object sender, RibbonControlEventArgs e)
+		{
+			MessageBox.Show(Properties.Settings.Default.CurrentCalendar + Properties.Settings.Default.host);
+		}
+
+		private void buttonCreateNewCalendarOrChange_Click(object sender, RibbonControlEventArgs e)
+		{
+			try
+			{
+				CreateNewCalendarWindow calendarWindow = new CreateNewCalendarWindow();
+				calendarWindow.Show();
+			}
+			catch (System.Exception ex)
+			{
+
+				MessageBox.Show(ex.Message);
 			}
 		}
 	}
