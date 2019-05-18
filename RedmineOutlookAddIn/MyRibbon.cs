@@ -1,30 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Office.Interop.Outlook;
 using Microsoft.Office.Tools.Ribbon;
-
-using System.Xml.Linq;
-using Outlook = Microsoft.Office.Interop.Outlook;
-using Office = Microsoft.Office.Core;
-using System.Windows.Forms;
 using Redmine.Net.Api;
 using Redmine.Net.Api.Types;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
-
-using MsoTDAddinLib;
-using System.AddIn;
-using Microsoft.Office.Interop.Outlook;
-using System.Data;
-
-
-using System.IO;
-using System.Threading;
-using GemBox.Document;
-
 using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 
 //https://social.msdn.microsoft.com/Forums/office/en-US/4fa50649-db5c-4d2c-8ef0-5c08635c28e4/creating-an-outlook-task-in-net?forum=outlookdev
@@ -34,11 +20,29 @@ namespace RedmineOutlookAddIn
 {
 	public partial class MyRibbon
 	{
+		/// <summary>
+		/// хост - url адресс Redmine пользователя.
+		/// </summary>
 		internal static string host = RedmineOutlookAddIn.Properties.Settings.Default.host;//"https://edu.pais.hse.ru/redmine/";//"http://79.137.216.214/redmine/";
+		/// <summary>
+		/// apiKey - апи ключ Redmine пользователя.
+		/// </summary>
 		internal static string apiKey = RedmineOutlookAddIn.Properties.Settings.Default.apyKey;// "150dfb2182cab1f02cac7aff2da8224207632e67";//"4444025d7e83c49e92466b5399ba7ee06c464637";
+		/// <summary>
+		/// ОбЪект RedmineManager - с сервером.
+		/// </summary>
 		internal RedmineManager manager;
+		/// <summary>
+		/// текущая папка с задачами.
+		/// </summary>
 		internal static Outlook.MAPIFolder CustomFolder = null;
+		/// <summary>
+		/// имя текущей папки с задачами.
+		/// </summary>
 		internal string current_folder = RedmineOutlookAddIn.Properties.Settings.Default.CurrentFolder;//папка сохранения задач
+		/// <summary>
+		/// Имя задачи - родителя .
+		/// </summary>
 		internal string outlookTaskParent;
 
 		private void MyRibbon_Load(object sender, RibbonUIEventArgs e)
@@ -54,11 +58,6 @@ namespace RedmineOutlookAddIn
 				MessageBox.Show(ex.Message);
 				MessageBox.Show("Чтобы пользоваться надстройкой" + Environment.NewLine + "Введите пользовательские данные");
 			}
-
-
-
-
-
 
 		}
 
@@ -106,8 +105,10 @@ namespace RedmineOutlookAddIn
 
 		}
 
-
-		public void AddTask()
+		/// <summary>
+		/// Метод для добавления задачи.
+		/// </summary>
+		internal void AddTask()
 		{
 
 
@@ -254,7 +255,7 @@ namespace RedmineOutlookAddIn
 		/// Метод , создающий папку - если она отсутствует
 		/// </summary>
 		/// <returns>папку Outlook</returns>
-		public Outlook.MAPIFolder CreateCustomFolder(string nameFolder)
+		internal Outlook.MAPIFolder CreateCustomFolder(string nameFolder)
 		{
 			Outlook.MAPIFolder CustomFolder = null;
 
@@ -334,6 +335,9 @@ namespace RedmineOutlookAddIn
 		{
 			TasksUpdates();
 		}
+		/// <summary>
+		/// Метод, для обнавления задач и импорта из Redmine.
+		/// </summary>
 		private void TasksUpdates()
 		{
 			//прогресс бар процесса обновления задач

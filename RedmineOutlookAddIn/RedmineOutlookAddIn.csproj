@@ -93,6 +93,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\RedmineOutlookAddIn.xml</DocumentationFile>
   </PropertyGroup>
   <!--
     This section defines properties that are set when the "Release" configuration is selected.
@@ -216,15 +217,6 @@
     <Compile Include="AboutAddInProject.Designer.cs">
       <DependentUpon>AboutAddInProject.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AddForm.Designer.cs">
-      <DependentUpon>AddForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="addForm.xaml.cs">
-      <DependentUpon>addForm.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AddOrChangeProjectWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -277,14 +269,8 @@
     <Compile Include="ShowTaskOrShowParentTaskForm.Designer.cs">
       <DependentUpon>ShowTaskOrShowParentTaskForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WikiEditor.xaml.cs">
-      <DependentUpon>WikiEditor.xaml</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="AboutAddInProject.resx">
       <DependentUpon>AboutAddInProject.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AddForm.resx">
-      <DependentUpon>AddForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddOrChangeProjectWindow.resx">
       <DependentUpon>AddOrChangeProjectWindow.cs</DependentUpon>
@@ -322,6 +308,7 @@
       <DependentUpon>ShowTaskOrShowParentTaskForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -383,16 +370,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resourses\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="addForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WikiEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

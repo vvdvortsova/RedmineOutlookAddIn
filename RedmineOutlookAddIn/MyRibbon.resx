@@ -2570,7 +2570,7 @@
 </value>
   </data>
   <data name="buttonSetting.Label" xml:space="preserve">
-    <value>настройки</value>
+    <value>Настройки</value>
   </data>
   <data name="&gt;&gt;buttonSetting.Name" xml:space="preserve">
     <value>buttonSetting</value>

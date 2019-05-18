@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="RedmineOutlookAddIn.AboutAddInProject">
+    <Position X="15.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AboutAddInProject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.AddOrChangeProjectWindow">
+    <Position X="12.5" Y="10.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAACAAABAAAACAAAAiAAAAAAAAAAABEAAAAAA=</HashCode>
+      <FileName>AddOrChangeProjectWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.Connection">
+    <Position X="10.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABgAACAACBEgABSAAAACAAAgAAAAABAAAAEACAA=</HashCode>
+      <FileName>Connection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.CreateNewCalendarWindow">
+    <Position X="17" Y="6.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAACACAAAACQAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>CreateNewCalendarWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.Helper" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.HelperWindow">
+    <Position X="8.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAAAAAAAACAAABAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HelperWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.MyRibbon" Collapsed="true">
+    <Position X="13.5" Y="6.75" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>SgKAgCAEgiQQ4AKQAAmhAIBHAMAAKBRAAFiu5ACABAE=</HashCode>
+      <FileName>MyRibbon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.ThisRibbonCollection" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.ProgressBarShow">
+    <Position X="17.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAQACAAABAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProgressBarShow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.ShowTaskOrShowParentTaskForm">
+    <Position X="10.25" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACABACCAAAAABAAAAAAACAAAAA=</HashCode>
+      <FileName>ShowTaskOrShowParentTaskForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.ThisAddIn" Collapsed="true">
+    <Position X="12.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAwAACQCBAAEQCgAQAAgFoAAAAAABAQAAgEIAAAACg=</HashCode>
+      <FileName>ThisAddIn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.Globals" Collapsed="true">
+    <Position X="5.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAgAgAAAAgAAAAAAIAAAAAAAAAAAgAAAAAACAAAAgAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.ThisFormRegionCollection" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.WindowFormRegionCollection" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.Properties.Settings" Collapsed="true">
+    <Position X="17.25" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAADAAAAAIAAEAAABAAAAAAgCAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Object" Collapsed="true">
+    <Position X="6.75" Y="6" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="System.Windows.Forms.Form" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Microsoft.Office.Tools.Outlook.OutlookAddInBase" Collapsed="true">
+    <Position X="13.25" Y="4" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Microsoft.Office.Tools.Outlook.FormRegionCollectionBase" Collapsed="true">
+    <Position X="1" Y="4" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.Office.Tools.Ribbon.RibbonCollectionBase" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RedmineOutlookAddIn.Resources" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedmineOutlookAddIn.Properties.Resources" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WindowsFormsRichTextEditor.Resources" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAABEAAACQCAAQAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Office.Tools.Ribbon.RibbonBase" Collapsed="true">
+    <Position X="15.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Configuration.ApplicationSettingsBase" Collapsed="true">
+    <Position X="16.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

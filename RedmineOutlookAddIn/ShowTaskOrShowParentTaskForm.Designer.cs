@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShowTaskOrShowParentTaskForm));
 			this.buttonOpenTask = new System.Windows.Forms.Button();
 			this.buttonShowParent = new System.Windows.Forms.Button();
 			this.SuspendLayout();
@@ -59,8 +60,9 @@
 			this.ClientSize = new System.Drawing.Size(304, 96);
 			this.Controls.Add(this.buttonShowParent);
 			this.Controls.Add(this.buttonOpenTask);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "ShowTaskOrShowParentTaskForm";
-			this.Text = "ShowTaskOrShowParentTaskForm";
+			this.Text = "Окно просмотра задачи";
 			this.ResumeLayout(false);
 
 		}

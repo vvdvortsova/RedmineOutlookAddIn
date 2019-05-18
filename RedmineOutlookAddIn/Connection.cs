@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace RedmineOutlookAddIn
 {
@@ -16,21 +8,15 @@ namespace RedmineOutlookAddIn
 		public Connection()
 		{
 			InitializeComponent();
-			
+
 		}
 
 		
-
-		
-
-		private void Connection_Load(object sender, EventArgs e)
-		{
-			
-			
-		}
-
-		
-
+		/// <summary>
+		/// Метод записывающий данные в переменные среды.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void button3_Click(object sender, EventArgs e)
 		{
 			try
@@ -67,11 +53,15 @@ namespace RedmineOutlookAddIn
 			catch (Exception EX)
 			{
 
-				MessageBox.Show(EX.Message + Environment.NewLine+"Произошла ошибка:("+ Environment.NewLine+"Попробуйте снова)");
+				MessageBox.Show(EX.Message + Environment.NewLine + "Произошла ошибка:(" + Environment.NewLine + "Попробуйте снова)");
 			}
 		}
 
-		
+		/// <summary>
+		/// Метод ,скрывающий пароль звездочками.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void checkBox2_CheckedChanged(object sender, EventArgs e)
 		{
 			if (checkBox2.Checked)
@@ -81,13 +71,21 @@ namespace RedmineOutlookAddIn
 			else textBoxApiKey.UseSystemPasswordChar = false;
 		}
 
-		
 
+		/// <summary>
+		/// Метод переводящий на главную страницу Redmine.org.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			System.Diagnostics.Process.Start("http://www.redmine.org/");
 		}
-
+		/// <summary>
+		/// Метод записывающий айди и хост в переменные среды.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void checkBoxRemeberApiUrl_CheckedChanged(object sender, EventArgs e)
 		{
 			if (checkBoxRemeberApiUrl.Checked)

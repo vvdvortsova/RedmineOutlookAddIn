@@ -1,34 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using Outlook = Microsoft.Office.Interop.Outlook;
-using Office = Microsoft.Office.Core;
-using System.Windows.Forms;
-using Redmine.Net.Api;
+﻿using Redmine.Net.Api;
 using Redmine.Net.Api.Types;
-using System.Collections.Specialized;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
-
-
-using System.AddIn;
-using Microsoft.Office.Interop.Outlook;
-using System.Data;
-
-
-using System.IO;
-
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using Microsoft.Win32;
-using System.Windows.Controls;
+using System;
+using System.Windows.Forms;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace RedmineOutlookAddIn
 {
-	
+
 	public class Helper
 	{
 
