@@ -13,8 +13,6 @@ using System.Windows.Forms;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
 
-//https://social.msdn.microsoft.com/Forums/office/en-US/4fa50649-db5c-4d2c-8ef0-5c08635c28e4/creating-an-outlook-task-in-net?forum=outlookdev
-//https://docs.microsoft.com/en-us/visualstudio/vsto/how-to-programmatically-create-a-custom-calendar?view=vs-2019
 
 namespace RedmineOutlookAddIn
 {
@@ -23,11 +21,11 @@ namespace RedmineOutlookAddIn
 		/// <summary>
 		/// хост - url адресс Redmine пользователя.
 		/// </summary>
-		internal static string host = RedmineOutlookAddIn.Properties.Settings.Default.host;//"https://edu.pais.hse.ru/redmine/";//"http://79.137.216.214/redmine/";
+		internal static string host = RedmineOutlookAddIn.Properties.Settings.Default.host;
 		/// <summary>
 		/// apiKey - апи ключ Redmine пользователя.
 		/// </summary>
-		internal static string apiKey = RedmineOutlookAddIn.Properties.Settings.Default.apyKey;// "150dfb2182cab1f02cac7aff2da8224207632e67";//"4444025d7e83c49e92466b5399ba7ee06c464637";
+		internal static string apiKey = RedmineOutlookAddIn.Properties.Settings.Default.apyKey;
 		/// <summary>
 		/// ОбЪект RedmineManager - с сервером.
 		/// </summary>
@@ -110,7 +108,7 @@ namespace RedmineOutlookAddIn
 		/// </summary>
 		internal void AddTask()
 		{
-
+			
 
 			Outlook.TaskItem newTaskItem = null;
 			//Проверяем текущую папку CustomFolder
@@ -129,7 +127,11 @@ namespace RedmineOutlookAddIn
 
 				newTaskItem.Display("True");
 
-
+				if(newTaskItem.Subject == null || newTaskItem.DueDate == null)
+				{
+					MessageBox.Show($"Отсутствует описание или дата! {Environment.NewLine} Задача не была добавлена");
+					return;
+				}
 				if (newTaskItem.Subject != null || newTaskItem.DueDate != null)
 				{
 					Outlook.MAPIFolder calendar = CreateCustomCalendar();

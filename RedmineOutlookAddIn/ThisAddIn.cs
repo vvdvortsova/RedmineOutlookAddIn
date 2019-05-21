@@ -8,11 +8,7 @@ namespace RedmineOutlookAddIn
 
 	public partial class ThisAddIn
 	{
-
-
-
-
-
+		
 		internal Object selObject = null;
 		internal Outlook.Explorer currentExplorer = null;
 		private void ThisAddIn_Startup(object sender, System.EventArgs e)
