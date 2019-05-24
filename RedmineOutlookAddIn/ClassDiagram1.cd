@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
-  <Class Name="RedmineOutlookAddIn.AboutAddInProject">
+  <Class Name="RedmineOutlookAddIn.AboutAddInProject" Collapsed="true">
     <Position X="15.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAABAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AboutAddInProject.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RedmineOutlookAddIn.AddOrChangeProjectWindow">
+  <Class Name="RedmineOutlookAddIn.AddOrChangeProjectWindow" Collapsed="true">
     <Position X="12.5" Y="10.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAQQAAAAACAAABAAAACAAAAiAAAAAAAAAAABEAAAAAA=</HashCode>
       <FileName>AddOrChangeProjectWindow.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RedmineOutlookAddIn.Connection">
+  <Class Name="RedmineOutlookAddIn.Connection" Collapsed="true">
     <Position X="10.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAABgAACAACBEgABSAAAACAAAgAAAAABAAAAEACAA=</HashCode>
       <FileName>Connection.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RedmineOutlookAddIn.CreateNewCalendarWindow">
-    <Position X="17" Y="6.75" Width="2.25" />
+  <Class Name="RedmineOutlookAddIn.CreateNewCalendarWindow" Collapsed="true">
+    <Position X="21" Y="6.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAABAACACAAAACQAAAAAAAAAAAAAAABAA=</HashCode>
       <FileName>CreateNewCalendarWindow.cs</FileName>
@@ -35,7 +35,7 @@
       <FileName>Helper.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RedmineOutlookAddIn.HelperWindow">
+  <Class Name="RedmineOutlookAddIn.HelperWindow" Collapsed="true">
     <Position X="8.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>MAAAAAAAACAAABAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -43,8 +43,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RedmineOutlookAddIn.MyRibbon" Collapsed="true">
-    <Position X="13.5" Y="6.75" Width="2.75" />
+    <Position X="15.75" Y="7" Width="2.75" />
     <Compartments>
+      <Compartment Name="Public" Collapsed="true" />
+      <Compartment Name="Protected" Collapsed="true" />
+      <Compartment Name="Internal" Collapsed="true" />
+      <Compartment Name="Private" Collapsed="true" />
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
@@ -59,14 +63,14 @@
       <HashCode>AAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="RedmineOutlookAddIn.ProgressBarShow">
+  <Class Name="RedmineOutlookAddIn.ProgressBarShow" Collapsed="true">
     <Position X="17.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAQACAAABAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ProgressBarShow.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RedmineOutlookAddIn.ShowTaskOrShowParentTaskForm">
+  <Class Name="RedmineOutlookAddIn.ShowTaskOrShowParentTaskForm" Collapsed="true">
     <Position X="10.25" Y="5.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAACABACCAAAAABAAAAAAACAAAAA=</HashCode>

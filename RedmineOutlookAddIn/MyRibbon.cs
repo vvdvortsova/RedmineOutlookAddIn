@@ -50,11 +50,10 @@ namespace RedmineOutlookAddIn
 				manager = new RedmineManager(Properties.Settings.Default.host, Properties.Settings.Default.apyKey);
 
 			}
-			catch (System.Exception ex)
+			catch (System.Exception ex) when (ex is ArgumentException || ex is ArithmeticException || ex is RedmineException)
 			{
 
 				MessageBox.Show(ex.Message);
-				MessageBox.Show("Чтобы пользоваться надстройкой" + Environment.NewLine + "Введите пользовательские данные");
 			}
 
 		}
@@ -92,13 +91,13 @@ namespace RedmineOutlookAddIn
 			{
 				manager = new RedmineManager(RedmineOutlookAddIn.Properties.Settings.Default.host, RedmineOutlookAddIn.Properties.Settings.Default.apyKey);
 				AddTask();
-
+				
 			}
 			catch (System.Exception ex)
 			{
 				//To Do 
 				//Перед демонстрацией будь добра - это закомментить (не могу понять почему она вылетает)
-				MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace);
+				//MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace);
 			}
 
 		}
@@ -314,9 +313,17 @@ namespace RedmineOutlookAddIn
 					RedmineOutlookAddIn.Properties.Settings.Default.Save();
 					manager = new RedmineManager(RedmineOutlookAddIn.Properties.Settings.Default.host, RedmineOutlookAddIn.Properties.Settings.Default.apyKey);
 					this.RibbonUI.Invalidate();
+					if (manager.PageSize != 0)
+					{
+
+					}
 				}
 				manager = new RedmineManager(RedmineOutlookAddIn.Properties.Settings.Default.host, RedmineOutlookAddIn.Properties.Settings.Default.apyKey);
 
+			}
+			catch (Redmine.Net.Api.RedmineException)
+			{
+				MessageBox.Show("Проблемы с авторизацией" + Environment.NewLine + "Неправильный хост или ключ!");
 			}
 			catch (System.Exception)
 			{
@@ -335,7 +342,16 @@ namespace RedmineOutlookAddIn
 		/// <param name="e"></param>
 		private void button6_Click(object sender, RibbonControlEventArgs e)
 		{
-			TasksUpdates();
+			try
+			{
+				TasksUpdates();
+			}
+			catch (System.Exception ex) when (ex is ArgumentException || ex is ArithmeticException||ex is RedmineException)
+			{
+
+				MessageBox.Show(ex.Message);
+			}
+			
 		}
 		/// <summary>
 		/// Метод, для обнавления задач и импорта из Redmine.
@@ -865,10 +881,10 @@ namespace RedmineOutlookAddIn
 				Globals.ThisAddIn.Application.ActiveExplorer().CurrentFolder = my_currentFolder;
 				Globals.ThisAddIn.Application.ActiveExplorer().CurrentFolder.Display();
 			}
-			catch (System.Exception ex)
+			catch (System.Exception ex) when (ex is ArgumentException || ex is ArithmeticException || ex is RedmineException)
 			{
 
-				MessageBox.Show("Невозможно открыть календарь" + Environment.NewLine + ex.Message);
+				MessageBox.Show(ex.Message);
 			}
 		}
 		/// <summary>
@@ -892,7 +908,7 @@ namespace RedmineOutlookAddIn
 				CreateNewCalendarWindow calendarWindow = new CreateNewCalendarWindow();
 				calendarWindow.Show();
 			}
-			catch (System.Exception ex)
+			catch (System.Exception ex) when (ex is ArgumentException || ex is ArithmeticException || ex is RedmineException)
 			{
 
 				MessageBox.Show(ex.Message);
